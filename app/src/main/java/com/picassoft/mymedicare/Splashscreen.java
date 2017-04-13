@@ -9,7 +9,7 @@ import android.view.WindowManager;
 
 public class Splashscreen extends AppCompatActivity {
 
-    private final int SPLASH_DISPLAY_LENGTH = 7000;
+    private final int SPLASH_DISPLAY_LENGTH = 2000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +24,7 @@ public class Splashscreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
-                Intent mainIntent = new Intent(Splashscreen.this,MainActivity.class);
+                Intent mainIntent = new Intent(Splashscreen.this,NavDrawer.class);
                 Splashscreen.this.startActivity(mainIntent);
                 Splashscreen.this.finish();
             }
