@@ -10,29 +10,30 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.picassoft.mymedicare.Splashscreen">
 
+    <TextView
+        android:text="MyMediCare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/appName"
+        android:textSize="40sp"
+        android:typeface="serif"
+        android:fontFamily="serif"
+        android:textStyle="normal|bold"
+        android:textColor="@android:color/holo_blue_dark" />
+
     <ImageView
         android:id="@+id/splashscreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:src="@drawable/logo_medicare"
         android:layout_gravity="center"
-        android:layout_width="300dip"
-        android:cropToPadding="false"
-        android:scaleType="fitCenter"
-        android:layout_marginTop="27dp"
-        android:layout_height="300dip"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginBottom="19dp"
+        android:layout_above="@+id/appName"
+        android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="MyMediCare"
-        android:textSize="40sp"
-        android:textColor="@android:color/holo_blue_dark"
-        android:textAlignment="center"
-        android:fontFamily="serif"
-        android:layout_below="@+id/splashscreen"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="15dp" />
 </RelativeLayout>
 
 
