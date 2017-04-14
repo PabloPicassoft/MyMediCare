@@ -26,7 +26,8 @@
             android:label="@string/title_activity_nav_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".LoginScreen" />
-        <activity android:name=".CalculateRisk"></activity>
+        <activity android:name=".CalculateRisk" />
+        <activity android:name=".Settings"></activity>
     </application>
 
 </manifest>

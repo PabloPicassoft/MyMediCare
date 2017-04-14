@@ -10,4 +10,131 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.picassoft.mymedicare.CalculateRisk">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:weightSum="1">
+
+        <TextView
+            android:text="Calculate Risk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/calcRiskTitle"
+            android:textAlignment="center"
+            tools:gravity="center"
+            android:gravity="center"
+            android:textStyle="normal|bold"
+            android:textSize="28sp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/colorPrimary" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="0.11">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:ems="10"
+                android:id="@+id/input_temperature"
+                android:layout_weight="1"
+                android:hint="Temperature (C)" />
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:text="Blood Pressure Readings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3"
+            android:textSize="17sp"
+            android:layout_weight="0.09"
+            android:textAlignment="viewStart"
+            android:paddingTop="20dp"
+            android:textColor="@android:color/holo_blue_dark" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/input_bp_low"
+                    android:layout_weight="1"
+                    android:hint="Lower" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/input_bp_high"
+                    android:layout_weight="1"
+                    android:hint="Higher" />
+
+            </LinearLayout>
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingBottom="10dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/input_heartrate"
+                android:layout_weight="1"
+                android:hint="Heart Rate (BPM)"
+                android:selectAllOnFocus="false" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:text="Your Risk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:id="@+id/output_risk"
+                    android:layout_weight="1.00" />
+
+                <Button
+                    android:text="Calculate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_calculate"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
 </RelativeLayout>

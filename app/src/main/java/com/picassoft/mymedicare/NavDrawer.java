@@ -1,5 +1,6 @@
 package com.picassoft.mymedicare;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -82,14 +83,19 @@ public class NavDrawer extends AppCompatActivity
 
         if (id == R.id.nav_calculate) {
             // Handle the camera action
+            Intent toCalc = new Intent(this, CalculateRisk.class);
+            startActivity(toCalc);
         } else if (id == R.id.nav_logout) {
-
+            Intent logout = new Intent(this, LoginScreen.class);
+            startActivity(logout);
         } else if (id == R.id.nav_past_measurements) {
 
         } else if (id == R.id.nav_profile) {
-
-        } else if (id == R.id.nav_share) {
-
+            Intent profile = new Intent(this, LoginScreen.class);
+            startActivity(profile);
+        } else if (id == R.id.nav_settings) {
+            Intent profile = new Intent(this, MainActivity.class);
+            startActivity(profile);
         } else if (id == R.id.nav_view) {
 
         }
