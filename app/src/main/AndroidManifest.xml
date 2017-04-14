@@ -27,7 +27,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".LoginScreen" />
         <activity android:name=".CalculateRisk" />
-        <activity android:name=".Settings"></activity>
+        <activity
+            android:name=".Settings"
+            android:label="@string/title_activity_settings"></activity>
     </application>
 
 </manifest>

@@ -69,6 +69,8 @@ public class NavDrawer extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent settings = new Intent(this, Settings.class);
+            startActivity(settings);
             return true;
         }
 
@@ -96,8 +98,6 @@ public class NavDrawer extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
             Intent profile = new Intent(this, MainActivity.class);
             startActivity(profile);
-        } else if (id == R.id.nav_view) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

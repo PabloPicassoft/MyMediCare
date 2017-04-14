@@ -13,4 +13,32 @@
     tools:context="com.picassoft.mymedicare.NavDrawer"
     tools:showIn="@layout/app_bar_nav_drawer">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="98dp"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:text="Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/button2"
+                android:layout_weight="1" />
+
+            <Button
+                android:text="Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/button"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+    </LinearLayout>
 </RelativeLayout>
