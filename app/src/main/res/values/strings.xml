@@ -9,4 +9,15 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <!--     Login Activity String Resources -->
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">Contacts permissions are needed for providing email completions.</string>
+    <string name="confirm_registry">Email not found. Do you want to create a new user with that email and password?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
 </resources>

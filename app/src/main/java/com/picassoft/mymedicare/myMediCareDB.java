@@ -17,26 +17,25 @@ import android.util.Log;
  *
  */
 
-public class myDatabase {
-    //veriables for all columns in database
-    public static final String KEY_ROWID = "_id";
-    public static final String KEY_userNAME = "uName";
-    public static final String KEY_password = "password";
-    public static final String KEY_Name = "name";
-    public static final String KEY_Address = "address";
-    public static final String KEY_Age = "age";
-    public static final String KEY_GPname = "gpname";
-    public static final String KEY_GPnumber = "gpnumber";
-    public static final String KEY_colourScheme = "colourScheme";
-    public static final String KEY_textSize = "textSize";
-    private static final String TAG = "MyDBHelper";
-    private static final String DATABASE_NAME = "MyDB";
+public class myMediCareDB {
+    //variables for all columns in database
+    public static final String COLUMN_ROWID = "_id";
+    public static final String COLUMN_EMAIL = "email";
+    public static final String COLUMN_PASSWORD = "password";
+    public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_ADDRESS = "address";
+    public static final String COLUMN_GPNAME = "gpname";
+    public static final String COLUMN_GP_NUMBER = "gpnumber";
+    public static final String COLUMN_COLOURSCHEME = "colourScheme";
+    public static final String COLUMN_TEXTSIZE = "textSize";
+    private static final String TAG = "DBHelper";
+    private static final String DATABASE_NAME = "MyMediCare.db";
     private static final String DATABASE_TABLE = "login";
     private static final int DATABASE_VERSION = 2;
 
     //string told database table name and order
     private static final String DATABASE_CREATE = "create table login(_id integer primary key autoincrement, "
-            +"uName text not null, password text not null, name, address, age, gpname, gpnumber);";
+            +"email text not null, password text not null, name, address, gpname, gpnumber);";
 
     //variables for holding database context, helper and SQLite instances
     private final Context context;
@@ -44,7 +43,7 @@ public class myDatabase {
     private SQLiteDatabase db;
 
     //method to create instance of database helper
-    public myDatabase(Context ctx)
+    public myMediCareDB(Context ctx)
     {
         this.context = ctx;
         DBHelper = new DatabaseHelper(context);
@@ -76,37 +75,42 @@ public class myDatabase {
             onCreate(db);
         }
     }
+
     //open database
-    public myDatabase open() throws SQLException {
+    public myMediCareDB open() throws SQLException {
         db = DBHelper.getWritableDatabase();
         return this;
     }
+
     //close the database
     public void close(){
         DBHelper.close();
     }
+
     //add new row and contact to databse
-    public void insertContact(String name, String pass)
+    public void insertUser(String name, String pass)
     {
         //populate row with username and password
         ContentValues initialValues = new ContentValues();
-        initialValues.put(KEY_userNAME, name);
-        initialValues.put(KEY_password, pass);
+        initialValues.put(COLUMN_EMAIL, name);
+        initialValues.put(COLUMN_PASSWORD, pass);
         db.insert(DATABASE_TABLE, null, initialValues);
     }
+
     //return all contacts from database
 
-    public Cursor getAllContacts()
+    public Cursor getAllUsers()
     {
-        return db.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_userNAME,
-                KEY_password}, null, null, null, null, null);
+        return db.query(DATABASE_TABLE, new String[] {COLUMN_ROWID, COLUMN_EMAIL,
+                COLUMN_PASSWORD}, null, null, null, null, null);
     }
 
     //return certain account
     public Cursor getAccount(int i) throws SQLException {
         //query database for current row for data
-        Cursor mCursor = db.query(true, DATABASE_TABLE, new String[] {KEY_ROWID, KEY_userNAME, KEY_password,KEY_Name, KEY_Address, KEY_Age, KEY_GPname, KEY_GPnumber}, KEY_ROWID + " like " + i , null,
-            null, null, null, null);
+        Cursor mCursor = db.query(true, DATABASE_TABLE, new String[]
+                {COLUMN_ROWID, COLUMN_EMAIL, COLUMN_PASSWORD, COLUMN_NAME, COLUMN_ADDRESS, COLUMN_GPNAME, COLUMN_GP_NUMBER}, COLUMN_ROWID
+                + " like " + i , null, null, null, null, null);
 
         //if cursor exists, go to the first point in database
         if (mCursor != null) {
@@ -117,17 +121,16 @@ public class myDatabase {
     }
 
     //insert data values into the database
-    public void insertDetails(String name, String address, String age, String gpname, String gpnumber, int row){
+    public void insertDetails(String name, String address, String gpname, String gpnumber, int row){
         //new instance of content values
         //add all parsed information
         ContentValues initialValues = new ContentValues();
-            initialValues.put(KEY_Name, name);
-            initialValues.put(KEY_Address, address);
-            initialValues.put(KEY_Age, age);
-            initialValues.put(KEY_GPname, gpname);
-            initialValues.put(KEY_GPnumber, gpnumber);
+            initialValues.put(COLUMN_NAME, name);
+            initialValues.put(COLUMN_ADDRESS, address);
+            initialValues.put(COLUMN_GPNAME, gpname);
+            initialValues.put(COLUMN_GP_NUMBER, gpnumber);
 
-            db.update(DATABASE_TABLE, initialValues, KEY_ROWID + "=" + row  ,null );
+            db.update(DATABASE_TABLE, initialValues, COLUMN_ROWID + "=" + row  ,null );
         }
 
 }

@@ -93,10 +93,10 @@ public class NavDrawer extends AppCompatActivity
         } else if (id == R.id.nav_past_measurements) {
 
         } else if (id == R.id.nav_profile) {
-            Intent profile = new Intent(this, LoginScreen.class);
+            Intent profile = new Intent(this, UserProfile.class);
             startActivity(profile);
         } else if (id == R.id.nav_settings) {
-            Intent profile = new Intent(this, MainActivity.class);
+            Intent profile = new Intent(this, Settings.class);
             startActivity(profile);
         }
 
