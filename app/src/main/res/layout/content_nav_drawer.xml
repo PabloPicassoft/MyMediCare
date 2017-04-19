@@ -29,56 +29,95 @@
             android:textColor="@color/colorPrimaryDark"
             android:textSize="26sp"
             android:layout_weight="0.09"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_weight="0.28"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp">
+            android:layout_weight="0.09"
+            android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:layout_width="81dp"
+                android:layout_height="52dp"
+                app:srcCompat="@drawable/ic_menu_calculate"
+                android:id="@+id/caluclation_image"
+                android:layout_marginTop="10dp" />
 
             <Button
-                android:text="Button"
-                android:layout_width="wrap_content"
+                android:text="Calculate Risk"
                 android:layout_height="match_parent"
-                android:id="@+id/button3"
-                android:layout_weight="1"
-                android:layout_marginRight="10dp" />
-
-            <Button
-                android:text="Button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/button2"
-                android:layout_weight="1"
-                android:layout_marginLeft="10dp" />
-
+                android:id="@+id/main_calculate_risk_"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_width="match_parent" />
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.29"
-            android:layout_margin="10dp">
+            android:layout_weight="0.09"
+            android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:layout_width="81dp"
+                android:layout_height="52dp"
+                app:srcCompat="@drawable/ic_menu_history"
+                android:id="@+id/imageView3"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp" />
 
             <Button
-                android:text="Button"
+                android:text="Past Measurements"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/button5"
-                android:layout_weight="1"
-                android:layout_marginRight="10dp" />
-
-            <Button
-                android:text="Button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/button4"
-                android:layout_weight="1"
-                android:layout_marginLeft="10dp" />
+                android:layout_height="wrap_content"
+                android:id="@+id/button_main_past_measurements"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1" />
         </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.09"
+            android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:layout_width="81dp"
+                android:layout_height="52dp"
+                app:srcCompat="@drawable/ic_menu_settings"
+                android:id="@+id/imageView5"
+                android:layout_weight="1" />
+
+            <Button
+                android:text="Settings"
+                android:layout_height="match_parent"
+                android:id="@+id/button_main_settings"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:layout_width="wrap_content" />
+
+        </LinearLayout>
+
+        <Button
+            android:text="logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_main_logout"
+            android:layout_weight="0.09"
+            android:layout_marginTop="30dp"
+            android:background="@android:color/holo_red_dark"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center_horizontal"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp" />
+
     </LinearLayout>
 
 </RelativeLayout>
