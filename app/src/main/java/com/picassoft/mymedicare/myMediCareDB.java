@@ -11,7 +11,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
+import android.webkit.ConsoleMessage;
+import android.widget.Toast;
 
 
 public class myMediCareDB {
@@ -25,12 +26,12 @@ public class myMediCareDB {
     //public static final String COLUMN_COLOURSCHEME = "colourScheme";
     //public static final String COLUMN_TEXTSIZE = "textSize";
     private static final String TAG = "DBHelper";
-    private static final String DATABASE_NAME = "MyMediCare.db";
+    private static final String DATABASE_NAME = "MediDatabase";
     private static final String DATABASE_TABLE = "users";
     private static final int DATABASE_VERSION = 2;
 
     //string told database table name and order
-    private static final String DATABASE_CREATE = "create table users(_id integer primary key not null, "
+    private static final String DATABASE_CREATE = "create table users(_id integer primary key autoincrement, "
             +"email text not null, password text not null, name, gpnumber);";
 
     //variables for holding database context, helper and SQLite instances
@@ -57,8 +58,11 @@ public class myMediCareDB {
             try {
                 //execute SQL command within database
                 db.execSQL(DATABASE_CREATE);
+                Log.d("LLAMAS", "Twas Created");
             } catch (SQLException e) {
                 //print exception error
+                Log.d("LLAMAS", "NoDatabase Created");
+
                 e.printStackTrace();
             }
         }
@@ -86,24 +90,23 @@ public class myMediCareDB {
     //add new row and contact to databse
     public void insertUser(User user) {
 
-       // db = DBHelper.getWritableDatabase();
-
 
         //populate row with username and password
         ContentValues initialValues = new ContentValues();
 
-        String query = "select * from " + DATABASE_TABLE ;
-        Cursor cursor = db.rawQuery(query, null);
-        int count = cursor.getCount();
+        //String query = "select * from " + DATABASE_TABLE ;
+        //Cursor cursor = db.rawQuery(query, null);
+        //int count = cursor.getCount();
 
-        initialValues.put(COLUMN_ROWID, count);
-        initialValues.put(COLUMN_NAME, user.getName());
+        //initialValues.put(COLUMN_ROWID, count);
         initialValues.put(COLUMN_EMAIL, user.getEmail());
+        initialValues.put(COLUMN_NAME, user.getName());
         initialValues.put(COLUMN_PASSWORD, user.getPassword());
         initialValues.put(COLUMN_GP_NUMBER, user.getGpNumber());
 
         db.insert(DATABASE_TABLE, null, initialValues);
-        db.close();
+        //db.insert(DATABASE_TABLE, initialValues, COLUMN_ROWID + "=" + row , null);
+
     }
 
     public String searchUser(String username){
@@ -114,7 +117,7 @@ public class myMediCareDB {
         String a,b;
         b="NOT FOUND!";
 
-        if(cursor.moveToFirst()){
+        cursor.moveToFirst();
             do {
                 a = cursor.getString(0);
 
@@ -124,7 +127,7 @@ public class myMediCareDB {
                 }
             }
             while (cursor.moveToNext());
-        }
+
         return b;
     }
     //return all contacts from database
