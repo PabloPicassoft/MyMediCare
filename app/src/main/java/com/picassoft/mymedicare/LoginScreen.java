@@ -13,12 +13,16 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
 public class LoginScreen extends AppCompatActivity {
 
-    public myMediCareDB db;
+    //public myMediCareDB db = new myMediCareDB(getBaseContext());
+
+
+
     //ID to identity READ_CONTACTS permission request.
     private static final int REQUEST_READ_CONTACTS = 0;
 
@@ -35,13 +39,27 @@ public class LoginScreen extends AppCompatActivity {
         ////this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login_screen);
 
-        Button login = (Button) findViewById(R.id.btn_login);
+        final Button login = (Button) findViewById(R.id.btn_login);
         login.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (v.getId() == R.id.btn_login) {
-                    Intent signUpClick = new Intent(LoginScreen.this, NavDrawer.class);
-                    startActivity(signUpClick);
+
+//                    EditText uEmail = (EditText) findViewById(R.id.login_email);
+//                    String enteredEmail = uEmail.getText().toString();
+//                    EditText uPass = (EditText) findViewById(R.id.login_password);
+//                    String enteredPass = uPass.getText().toString();
+//
+//                    String password = db.searchUser(enteredEmail);
+
+                    //if (enteredPass.equals(password)){
+                        Intent loginClick = new Intent(LoginScreen.this, NavDrawer.class);
+                        //signUpClick.putExtra("Username", password);
+                        startActivity(loginClick);
+//                    } else {
+//                        Toast loginFailed = Toast.makeText(LoginScreen.this, "Email and Password Do Not Match!", Toast.LENGTH_SHORT);
+//                        loginFailed.show();
+//                    }
                 }
             }
         });
@@ -57,10 +75,7 @@ public class LoginScreen extends AppCompatActivity {
             }
         });
 
-        //populate db database with values from
-        db = new myMediCareDB(getBaseContext());
-        //open the database
-        db.open();
+
     }
 
     private boolean mayRequestContacts() {

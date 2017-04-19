@@ -45,12 +45,12 @@ public class NavDrawer extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
     }
 
     @Override
@@ -91,9 +91,7 @@ public class NavDrawer extends AppCompatActivity
             Intent logout = new Intent(this, LoginScreen.class);
             startActivity(logout);
         } else if (id == R.id.nav_past_measurements) {
-
-        } else if (id == R.id.nav_profile) {
-            Intent profile = new Intent(this, UserProfile.class);
+            Intent profile = new Intent(this, PastMeasurements.class);
             startActivity(profile);
         } else if (id == R.id.nav_settings) {
             Intent profile = new Intent(this, Settings.class);
@@ -104,4 +102,5 @@ public class NavDrawer extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

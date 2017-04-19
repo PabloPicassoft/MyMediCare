@@ -23,19 +23,18 @@ public class myMediCareDB {
     public static final String COLUMN_EMAIL = "email";
     public static final String COLUMN_PASSWORD = "password";
     public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_ADDRESS = "address";
-    public static final String COLUMN_GPNAME = "gpname";
+    //public static final String COLUMN_GPNAME = "gpname";
     public static final String COLUMN_GP_NUMBER = "gpnumber";
-    public static final String COLUMN_COLOURSCHEME = "colourScheme";
-    public static final String COLUMN_TEXTSIZE = "textSize";
+    //public static final String COLUMN_COLOURSCHEME = "colourScheme";
+    //public static final String COLUMN_TEXTSIZE = "textSize";
     private static final String TAG = "DBHelper";
     private static final String DATABASE_NAME = "MyMediCare.db";
-    private static final String DATABASE_TABLE = "login";
+    private static final String DATABASE_TABLE = "users";
     private static final int DATABASE_VERSION = 2;
 
     //string told database table name and order
-    private static final String DATABASE_CREATE = "create table login(_id integer primary key autoincrement, "
-            +"email text not null, password text not null, name, address, gpname, gpnumber);";
+    private static final String DATABASE_CREATE = "create table users(_id integer primary key not null, "
+            +"email text not null, password text not null, name, gpnumber);";
 
     //variables for holding database context, helper and SQLite instances
     private final Context context;
@@ -88,49 +87,81 @@ public class myMediCareDB {
     }
 
     //add new row and contact to databse
-    public void insertUser(String name, String pass)
-    {
+    public void insertUser(User user) {
+
+       // db = DBHelper.getWritableDatabase();
+
         //populate row with username and password
         ContentValues initialValues = new ContentValues();
-        initialValues.put(COLUMN_EMAIL, name);
-        initialValues.put(COLUMN_PASSWORD, pass);
+
+        String query = "select * from " + DATABASE_TABLE ;
+        Cursor cursor = db.rawQuery(query, null);
+        int count = cursor.getCount();
+
+        initialValues.put(COLUMN_ROWID, count);
+        initialValues.put(COLUMN_NAME, user.getName());
+        initialValues.put(COLUMN_EMAIL, user.getEmail());
+        initialValues.put(COLUMN_PASSWORD, user.getPassword());
+        initialValues.put(COLUMN_GP_NUMBER, user.getGpNumber());
+
         db.insert(DATABASE_TABLE, null, initialValues);
+        db.close();
     }
 
+    public String searchUser(String username){
+
+        String query = "select email, password from " + DATABASE_TABLE;
+        Cursor cursor = db.rawQuery(query, null);
+
+        String a,b;
+        b="NOT FOUND!";
+
+        if(cursor.moveToFirst()){
+            do {
+                a = cursor.getString(0);
+
+                if (a.equals(username)){
+                    b = cursor.getString(1);
+                    break;
+                }
+            }
+            while (cursor.moveToNext());
+        }
+        return b;
+    }
     //return all contacts from database
 
-    public Cursor getAllUsers()
-    {
-        return db.query(DATABASE_TABLE, new String[] {COLUMN_ROWID, COLUMN_EMAIL,
-                COLUMN_PASSWORD}, null, null, null, null, null);
-    }
-
-    //return certain account
-    public Cursor getAccount(int i) throws SQLException {
-        //query database for current row for data
-        Cursor mCursor = db.query(true, DATABASE_TABLE, new String[]
-                {COLUMN_ROWID, COLUMN_EMAIL, COLUMN_PASSWORD, COLUMN_NAME, COLUMN_ADDRESS, COLUMN_GPNAME, COLUMN_GP_NUMBER}, COLUMN_ROWID
-                + " like " + i , null, null, null, null, null);
-
-        //if cursor exists, go to the first point in database
-        if (mCursor != null) {
-            mCursor.moveToFirst();
-        }
-        //return the cursor
-        return mCursor;
-    }
-
-    //insert data values into the database
-    public void insertDetails(String name, String address, String gpname, String gpnumber, int row){
-        //new instance of content values
-        //add all parsed information
-        ContentValues initialValues = new ContentValues();
-            initialValues.put(COLUMN_NAME, name);
-            initialValues.put(COLUMN_ADDRESS, address);
-            initialValues.put(COLUMN_GPNAME, gpname);
-            initialValues.put(COLUMN_GP_NUMBER, gpnumber);
-
-            db.update(DATABASE_TABLE, initialValues, COLUMN_ROWID + "=" + row  ,null );
-        }
+//    public Cursor getAllUsers()
+//    {
+//        return db.query(DATABASE_TABLE, new String[] {COLUMN_ROWID, COLUMN_EMAIL,
+//                COLUMN_PASSWORD}, null, null, null, null, null);
+//    }
+//
+//    //return certain account
+//    public Cursor getAccount(int i) throws SQLException {
+//        //query database for current row for data
+//        Cursor mCursor = db.query(true, DATABASE_TABLE, new String[]
+//                {COLUMN_ROWID, COLUMN_EMAIL, COLUMN_PASSWORD, COLUMN_NAME, COLUMN_GP_NUMBER}, COLUMN_ROWID
+//                + " like " + i , null, null, null, null, null);
+//
+//        //if cursor exists, go to the first point in database
+//        if (mCursor != null) {
+//            mCursor.moveToFirst();
+//        }
+//        //return the cursor
+//        return mCursor;
+//    }
+//
+//    //insert data values into the database
+//    public void insertDetails(String name, String address, String gpname, String gpnumber, int row){
+//        //new instance of content values
+//        //add all parsed information
+//        ContentValues initialValues = new ContentValues();
+//            initialValues.put(COLUMN_NAME, name);
+//            //initialValues.put(COLUMN_GPNAME, gpname);
+//            initialValues.put(COLUMN_GP_NUMBER, gpnumber);
+//
+//            db.update(DATABASE_TABLE, initialValues, COLUMN_ROWID + "=" + row  ,null );
+//        }
 
 }

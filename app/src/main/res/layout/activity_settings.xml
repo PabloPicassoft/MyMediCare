@@ -11,4 +11,185 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.picassoft.mymedicare.Settings">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:weightSum="1">
+
+        <TextView
+            android:text="Settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/settings_title"
+            android:textAlignment="center"
+            tools:gravity="center"
+            android:gravity="center"
+            android:textStyle="normal|bold"
+            android:textSize="28sp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp" />
+
+        <TextView
+            android:text="Temperature Format"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/temp_format_label"
+            android:textSize="17sp"
+            android:layout_weight="0.05"
+            android:textAlignment="viewStart"
+            android:paddingTop="10dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="normal|bold" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="0.05">
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+
+                <RadioButton
+                    android:text="Celcius (°C)"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radio_celsius"
+                    android:layout_weight="1" />
+
+                <RadioButton
+                    android:text="Fahrenheit (°F)"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radio_fahrenheit"
+                    android:layout_weight="1" />
+
+            </RadioGroup>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <TextView
+                android:text="Update GP Number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/update_gp_label"
+                android:textSize="17sp"
+                android:layout_weight="0.09"
+                android:textAlignment="viewStart"
+                android:paddingTop="20dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="normal|bold" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:ems="10"
+                    android:id="@+id/input_bp_low"
+                    android:layout_weight="1"
+                    android:hint="(+44)" />
+
+            </LinearLayout>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:text="Change Text Size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_size_label"
+            android:textSize="17sp"
+            android:layout_weight="0.09"
+            android:textAlignment="viewStart"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="normal|bold"
+            android:paddingTop="20dp" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingBottom="10dp">
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+
+                <RadioButton
+                    android:text="Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radio_textsize_small"
+                    android:layout_weight="1.17"
+                    android:textAlignment="center" />
+
+                <RadioButton
+                    android:text="Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radio_textsize_medium"
+                    android:layout_weight="1" />
+
+                <RadioButton
+                    android:text="Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radio_textsize_Large"
+                    android:layout_weight="1" />
+            </RadioGroup>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp">
+
+                <Button
+                    android:text="Delete Account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_delete_accunt"
+                    android:layout_weight="1.00"
+                    android:layout_marginRight="10dp" />
+
+                <Button
+                    android:text="Update Settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_update_settings"
+                    android:layout_weight="1.00"
+                    android:layout_marginLeft="10dp" />
+
+            </LinearLayout>
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
 </RelativeLayout>
+

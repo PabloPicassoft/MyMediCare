@@ -1,29 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="User">
+    <item android:checkableBehavior="single"
+        android:title="MediCare">
         <menu>
             <item
-                android:id="@+id/nav_profile"
-                android:icon="@drawable/ic_menu_profile"
-                android:title="Your Profile" />
+                android:id="@+id/nav_calculate"
+                android:icon="@drawable/ic_menu_calculate"
+                android:title="Calculate Risk" />
             <item
-                android:id="@+id/nav_logout"
-                android:icon="@drawable/ic_menu_logout"
-                android:title="Log Out" />
+                android:id="@+id/nav_past_measurements"
+                android:icon="@drawable/ic_menu_history"
+                android:title="Past Measurements" />
         </menu>
     </item>
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_calculate"
-            android:icon="@drawable/ic_menu_calculate"
-            android:title="Calculate Risk" />
-        <item
-            android:id="@+id/nav_past_measurements"
-            android:icon="@drawable/ic_menu_history"
-            android:title="Past Measurements" />
-    </group>
 
     <item android:title="Tools">
         <menu>
@@ -33,5 +24,18 @@
                 android:title="Settings" />
         </menu>
     </item>
+
+    <item android:title="User">
+        <menu>
+            <!-- enable when profile activity is done!<item
+                android:id="@+id/nav_profile"
+                android:icon="@drawable/ic_menu_profile"
+                android:title="Your Profile" /> -->
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_menu_logout"
+                android:title="Log Out" />
+        </menu>
+</item>
 
 </menu>
