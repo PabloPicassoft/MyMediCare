@@ -12,10 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-/**
- * Created by Alex Hermon on 03/05/2016.
- *
- */
+
 
 public class myMediCareDB {
     //variables for all columns in database
@@ -65,7 +62,7 @@ public class myMediCareDB {
                 e.printStackTrace();
             }
         }
-        //if the database is updated, whipe it to prevent issues
+        //if the database is updated, wipe it to prevent issues
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
@@ -90,6 +87,7 @@ public class myMediCareDB {
     public void insertUser(User user) {
 
        // db = DBHelper.getWritableDatabase();
+
 
         //populate row with username and password
         ContentValues initialValues = new ContentValues();
