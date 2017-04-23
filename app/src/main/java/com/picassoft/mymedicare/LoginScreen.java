@@ -1,11 +1,15 @@
 package com.picassoft.mymedicare;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.CursorIndexOutOfBoundsException;
+import android.database.SQLException;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View.OnClickListener;
@@ -51,18 +55,33 @@ public class LoginScreen extends AppCompatActivity {
                     String enteredEmail = uEmail.getText().toString();
                     EditText uPass = (EditText) findViewById(R.id.login_password);
                     String enteredPass = uPass.getText().toString();
-                    db.open();
-                    String password = db.searchUser(enteredEmail);
-                    db.close();
-                    if (enteredPass.equals(password)){
-                        Intent loginClick = new Intent(LoginScreen.this, NavDrawer.class);
-                        startActivity(loginClick);
-                    } else {
-                        Toast loginFailed = Toast.makeText(LoginScreen.this, "Email and Password Do Not Match!", Toast.LENGTH_SHORT);
-                        loginFailed.show();
-                    }
 
-            }}
+                    //
+                    try {
+                        db.open();
+                        String password = db.searchUser(enteredEmail);
+                        db.close();
+
+                        if (enteredPass.equals(password)){
+                            
+                            Toast loginSucceeded = Toast.makeText(LoginScreen.this, "Logged in successfully as " + enteredEmail + ".", Toast.LENGTH_LONG);
+                            loginSucceeded.show();
+
+                            Intent loginClick = new Intent(LoginScreen.this, NavDrawer.class);
+                            startActivity(loginClick);
+                        } else {
+                            Toast loginFailed = Toast.makeText(LoginScreen.this, "Email and Password Do Not Match!", Toast.LENGTH_SHORT);
+                            loginFailed.show();
+                        }
+
+                        // if there are no accounts in the database, the cursor index will be out of bounds (0) therefore throwing an exception.
+                        // inform user to register before clicking login.
+                    } catch (CursorIndexOutOfBoundsException noAccounts){
+                        Toast failed = Toast.makeText(LoginScreen.this, "Please Register an Email by Creating an Account.", Toast.LENGTH_SHORT);
+                        failed.show();
+                    }
+                }
+            }
         });
 
         Button signUp = (Button) findViewById(R.id.btn_loginSCR_signup);
@@ -76,40 +95,12 @@ public class LoginScreen extends AppCompatActivity {
             }
         });
 
-
     }
 
     @Override
     public  void onBackPressed(){
 
     }
-
-    private boolean mayRequestContacts() {
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true;
-        }
-        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-        if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok, new View.OnClickListener() {
-                        @Override
-                        @TargetApi(Build.VERSION_CODES.M)
-                        public void onClick(View v) {
-                            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-                        }
-                    });
-        } else {
-            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-        }
-        return false;
-    }
-
-
-
-
 }
 
 
