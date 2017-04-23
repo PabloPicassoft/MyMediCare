@@ -51,7 +51,6 @@ public class myMediCareDB {
         DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
-
         //first method ran on load of class
         @Override
         public void onCreate(SQLiteDatabase db){
@@ -67,7 +66,7 @@ public class myMediCareDB {
                 e.printStackTrace();
             }
         }
-        //if the database is updated, wipe it to prevent conflicts
+        //if the database is updated, wipe it to prevent issues
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
@@ -88,7 +87,7 @@ public class myMediCareDB {
         DBHelper.close();
     }
 
-    //add new row and contact to database
+    //add new row and contact to databse
     public void insertUser(User user) {
 
 
@@ -118,19 +117,9 @@ public class myMediCareDB {
         String a,b;
         b="NOT FOUND!";
 
-
-        if (cursor != null){
-            cursor.moveToFirst();
-        }
+        cursor.moveToFirst();
             do {
-                //check if any email has been registered
-//                if (cursor.getString(0).equals(null)){
-//                    Toast warning = Toast.makeText(this.context, "Please register an email.", Toast.LENGTH_SHORT);
-//                    warning.show();
-//                    break;
-//                } else {
-                    a = cursor.getString(0);
-//                }
+                a = cursor.getString(0);
 
                 if (a.equals(username)){
                     b = cursor.getString(1);

@@ -18,13 +18,13 @@ import android.widget.Toast;
 
 public class CreateAccount extends AppCompatActivity implements OnClickListener {
 
+
     myMediCareDB db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
-
         db = new myMediCareDB(getBaseContext());
 
         TextView bckToLogin = (TextView) findViewById(R.id.link_login);
@@ -44,6 +44,9 @@ public class CreateAccount extends AppCompatActivity implements OnClickListener 
             @Override
             public void onClick(View v) {
                 if (v.getId() == R.id.btn_signup) {
+
+
+
                     EditText name = (EditText) findViewById(R.id.signup_name);
                     EditText email = (EditText) findViewById(R.id.signup_email);
                     EditText pass1 = (EditText) findViewById(R.id.signup_password1);
@@ -54,7 +57,10 @@ public class CreateAccount extends AppCompatActivity implements OnClickListener 
                     String emailStr = email.getText().toString();
                     String pass1Str = pass1.getText().toString();
                     String passConfStr = passConf.getText().toString();
+
                     String gpNumStr = gpNum.getText().toString();
+
+
 
                     if (!pass1Str.equals(passConfStr)) {
                         Toast passFailed = Toast.makeText(CreateAccount.this, "Passwords Don't Match!", Toast.LENGTH_SHORT);
@@ -66,13 +72,9 @@ public class CreateAccount extends AppCompatActivity implements OnClickListener 
                         user.setEmail(emailStr);
                         user.setPassword(passConfStr);
                         user.setGpNumber(gpNumStr);
-
                         db.open();
                         db.insertUser(user);
                         db.close();
-
-                        Toast loginSucceeded = Toast.makeText(CreateAccount.this, "Account: \"" + emailStr + "\" has been created.", Toast.LENGTH_LONG);
-                        loginSucceeded.show();
 
                         Intent signUpClick = new Intent(CreateAccount.this, LoginScreen.class);
                         startActivity(signUpClick);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_login_screen"
@@ -96,4 +96,4 @@
             android:text="Create an Account"/>
 
     </LinearLayout>
-</ScrollView>
+</RelativeLayout>
