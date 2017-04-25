@@ -66,6 +66,10 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                preferences = PreferenceManager.getDefaultSharedPreferences(Settings.this);
+                int h = 0;
+                userPosition = preferences.getInt("positionCount", h);
+
                 db.open();
                 db.deleteByID(userPosition);
                 db.close();
