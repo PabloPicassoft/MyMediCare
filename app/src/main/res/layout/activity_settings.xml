@@ -33,18 +33,6 @@
             android:layout_marginBottom="15dp"
             android:layout_marginTop="15dp" />
 
-        <TextView
-            android:text="Temperature Format"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/temp_format_label"
-            android:textSize="17sp"
-            android:layout_weight="0.05"
-            android:textAlignment="viewStart"
-            android:paddingTop="10dp"
-            android:textColor="@color/colorPrimaryDark"
-            android:textStyle="normal|bold" />
-
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,26 +40,30 @@
             android:layout_marginBottom="8dp"
             android:layout_weight="0.05">
 
-            <RadioGroup
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
-                <RadioButton
-                    android:text="Celcius (°C)"
+                <TextView
+                    android:text="Current GP Number:"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/radio_celsius"
-                    android:layout_weight="1" />
+                    android:id="@+id/current_number"
+                    android:layout_weight="0.12"
+                    android:textSize="17sp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="normal|bold"
+                    android:textAlignment="viewStart" />
 
-                <RadioButton
-                    android:text="Fahrenheit (°F)"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/radio_fahrenheit"
-                    android:layout_weight="1" />
-
-            </RadioGroup>
+                    android:id="@+id/current_num_view"
+                    android:layout_weight="1"
+                    android:textStyle="normal|bold" />
+            </LinearLayout>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -91,6 +83,7 @@
                 android:paddingTop="20dp"
                 android:textColor="@color/colorPrimaryDark"
                 android:textStyle="normal|bold" />
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -101,8 +94,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="phone"
                     android:ems="10"
-                    android:id="@+id/input_bp_low"
-                    android:layout_weight="1"
+                    android:id="@+id/input_gp_number"
                     android:hint="(+44)" />
 
             </LinearLayout>
@@ -174,7 +166,7 @@
                     android:text="Delete Account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button_delete_accunt"
+                    android:id="@+id/button_delete_account"
                     android:layout_weight="1.00"
                     android:layout_marginRight="10dp" />
 

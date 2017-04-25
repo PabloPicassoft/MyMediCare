@@ -3,7 +3,9 @@ package com.picassoft.mymedicare;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +37,9 @@ public class CalculateRisk extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        db = new myMediCareDB(getBaseContext());
+
         setContentView(R.layout.activity_calculate_risk);
 
         Spinner tempDropdown = (Spinner) findViewById(R.id.spinner_temp_format);
@@ -154,20 +159,46 @@ public class CalculateRisk extends AppCompatActivity {
                         }
                     }
 
-                    //Store SMS message containing user's measurements,
-                    String gpSMSMessage = "<USER'S NAME> has a Temperature of " + tempInt + celsiusOrFahr +
-                            ", Blood Pressure Reading of " + LBPInt + "/" + HBPInt +
-                            ", and an average Heart Rate of " + HRInt + ". Please book an appointment for <USER'S NAME> as soon as possible.";
+//                  String outputRisk = getString(highRiskCount);
+                    TextView output = (TextView) findViewById(R.id.output_riskyness);
+                    output.setText(String.valueOf(highRiskCount));
 
-                    //initialise an smsmanager to user the default messaging application
-                    SmsManager smsService = SmsManager.getDefault();
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculateRisk.this);
 
-                    //as the message is longer than 160 characters, use divideMessage to split the message into transmittable chunks.
-                    ArrayList<String> parts = smsService.divideMessage(gpSMSMessage);
+                    int h = 0;
+                    int userPosition = preferences.getInt("positionCount", h);
+                    Toast loginSucceeded = Toast.makeText(CalculateRisk.this, "name = " +  userPosition, Toast.LENGTH_LONG);
+                    loginSucceeded.show();
 
-                    //instead of using sendTextMessage, use sendMultiPart version that accepts String arraylist rather than String variable.
-                    smsService.sendMultipartTextMessage("+447522148149", null, parts, null, null);
+                    db.open();
 
+                    Cursor c = db.getAccount(userPosition);
+
+                    db.close();
+
+
+                    try {
+                        //Store SMS message containing user's measurements,
+                        String gpSMSMessage = c.getString(3) + " has a Temperature of " + tempInt + celsiusOrFahr +
+                                ", Blood Pressure Reading of " + LBPInt + "/" + HBPInt +
+                                ", and an average Heart Rate of " + HRInt + ". Please book an appointment for " + c.getString(3) + " as soon as possible.";
+
+                        //initialise an smsmanager to user the default messaging application
+                        SmsManager smsService = SmsManager.getDefault();
+
+                        //as the message is longer than 160 characters, use divideMessage to split the message into transmittable chunks.
+                        ArrayList<String> parts = smsService.divideMessage(gpSMSMessage);
+
+                        //instead of using sendTextMessage, use sendMultiPart version that accepts String arraylist rather than String variable.
+                        smsService.sendMultipartTextMessage(c.getString(4), null, parts, null, null);
+
+                        Toast messageSent = Toast.makeText(CalculateRisk.this, "Text Message Sent to " + c.getString(4), Toast.LENGTH_LONG);
+                        messageSent.show();
+                    }
+                    catch (Exception e){
+                        Toast messageSent = Toast.makeText(CalculateRisk.this, "Text Message Failed to Send. Please check stored number.", Toast.LENGTH_LONG);
+                        messageSent.show();
+                    }
                     final AlertDialog.Builder highRiskAlert  = new AlertDialog.Builder(CalculateRisk.this);
                     highRiskAlert.setMessage("An SMS has been sent to alert your GP of your measurements, and an appointment will be booked. \n" +
                             "\nPlease keep an eye on your inbox for your GP's confirmation of the appointment.");
@@ -181,7 +212,7 @@ public class CalculateRisk extends AppCompatActivity {
 
 
                     AlertDialog.Builder resultAlert  = new AlertDialog.Builder(CalculateRisk.this);
-                    resultAlert.setMessage(highRiskCount + "\nTemperature: " + verdictTemp + " \n\n" +
+                    resultAlert.setMessage("\nTemperature: " + verdictTemp + " \n\n" +
                             "Higher Blood Pressure: " + verdictHBP + "  \n\n" +
                             "Lower Blood Pressure: " + verdictLBP + " \n\n" +
                             "Heart Rate: " + verdictHR);
@@ -200,41 +231,8 @@ public class CalculateRisk extends AppCompatActivity {
                     resultAlert.setCancelable(false);
                     resultAlert.create().show();
 
-                    //if any of the verdicts are HIGH send text to GP
-//                    if (verdictTemp.equals("HIGH") || verdictLBP.equals("HIGH") || verdictHBP.equals("HIGH") || verdictHR.equals("HIGH")) {
-
-// open the database
-//                        db.open();
-//                        //get value of shared preferences file for line number
-//                        //SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-//                        int rowValue = prefs.getInt("rowVal", 0);
-//                        //get data values for current users data row
-//                        Cursor c = db.getAccount(rowValue);
-//                        //if a GP number exists, send message
-//                        if (!c.getString(7).toString().equals(null) || !c.getString(7).toString().equals("")) {
-//                            //compile warning message which includes all readings
-//                            String textMsg = (c.getString(3) + " has high readings: Temperature = " + temperatInt + " " + verdictTemp + ", High Blood Pressure: " + HighbloodPresureInt + " " + verdictHBP + ", Low Blood Pressure: " + LowbloodPresureInt + " " + verdictLBP + ", Heart Rate: " + hearRateInt + " " + verdictHR);
-//                            //tell user a message has been sent to the GP
-//                            Toast.makeText(getBaseContext(), "a message has been sent to your GP warning them of HIGH RISK reading", Toast.LENGTH_LONG).show();
-//                            //open new instance of messanger applicaiton
-//                            SmsManager sms = SmsManager.getDefault();
-//                            //send message to GP's number with textMsg string
-//                            sms.sendTextMessage(c.getString(7), null, textMsg, null, null);
-//                        }
-//                        //if GP's number does not exist then tell user to add number and try again.
-//                        else {
-//                            Toast.makeText(getBaseContext(), "Please enter GP information on 'Your Details' page then re-enter this information", Toast.LENGTH_LONG).show();
-//                        }
-//                        //close databsae
-//                        db.close();
-//
-//
-//                    }
-                    //if error occurs and user does not add values to text fields
-                } catch (Exception e) {
-
+                } catch (NumberFormatException e) {
                     Toast.makeText(getBaseContext(), "Please Use Int Values", Toast.LENGTH_LONG).show();
-
                 }
             }
         });

@@ -50,7 +50,7 @@
                 <EditText
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
+                    android:inputType="number"
                     android:ems="10"
                     android:id="@+id/input_temperature"
                     android:hint="Temperature"
@@ -176,11 +176,10 @@
                 android:layout_marginTop="40dp">
 
                 <TextView
-                    android:text="Results:"
+                    android:text="High Risk Measurements:"
                     android:layout_width="wrap_content"
-                    android:layout_height="28dp"
+                    android:layout_height="55dp"
                     android:id="@+id/result_label"
-                    android:layout_weight="1.00"
                     android:textAlignment="textEnd"
                     android:textSize="18sp"
                     android:textColor="@color/colorPrimaryDark"
@@ -188,13 +187,13 @@
                     android:paddingRight="10dp" />
 
                 <TextView
-                    android:text="REPLACEWITHRESULT"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/output_riskyness"
                     android:layout_weight="1.00"
                     android:textAlignment="textStart"
-                    android:paddingLeft="10dp" />
+                    android:paddingLeft="10dp"
+                    android:textColor="@android:color/holo_red_dark" />
 
             </LinearLayout>
 

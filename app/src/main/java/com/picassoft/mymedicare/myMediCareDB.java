@@ -6,10 +6,12 @@ package com.picassoft.mymedicare;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.webkit.ConsoleMessage;
 import android.widget.Toast;
@@ -55,18 +57,10 @@ public class myMediCareDB {
         //first method ran on load of class
         @Override
         public void onCreate(SQLiteDatabase db){
-            //try and catch used to avoid errors
-            try {
-                //execute SQL command within database
-                db.execSQL(DATABASE_CREATE);
-                Log.d("LLAMAS", "Twas Created");
-            } catch (SQLException e) {
-                //print exception error
-                Log.d("LLAMAS", "NoDatabase Created");
 
-                e.printStackTrace();
-            }
+                db.execSQL(DATABASE_CREATE);
         }
+
         //if the database is updated, wipe it to prevent conflicts
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
@@ -84,33 +78,42 @@ public class myMediCareDB {
     }
 
     //close the database
-    public void close(){
+    public void close() {
         DBHelper.close();
     }
 
     //add new row and contact to database
     public void insertUser(User user) {
 
-
-        //populate row with username and password
+        //populate rows with username and password
         ContentValues initialValues = new ContentValues();
 
-        //String query = "select * from " + DATABASE_TABLE ;
-        //Cursor cursor = db.rawQuery(query, null);
-        //int count = cursor.getCount();
-
-        //initialValues.put(COLUMN_ROWID, count);
         initialValues.put(COLUMN_EMAIL, user.getEmail());
         initialValues.put(COLUMN_NAME, user.getName());
         initialValues.put(COLUMN_PASSWORD, user.getPassword());
         initialValues.put(COLUMN_GP_NUMBER, user.getGpNumber());
 
         db.insert(DATABASE_TABLE, null, initialValues);
-        //db.insert(DATABASE_TABLE, initialValues, COLUMN_ROWID + "=" + row , null);
-
     }
 
-    public String searchUser(String username){
+    public  void deleteByID(int row) {
+        db.delete(DATABASE_TABLE, COLUMN_ROWID + " = " + row, null);
+    }
+
+    public void updateDB(String email, String name, String pass, String gpNumber, int row) {
+
+        ContentValues updatedValues = new ContentValues();
+
+        updatedValues.put(COLUMN_EMAIL, email);
+        updatedValues.put(COLUMN_NAME, name);
+        updatedValues.put(COLUMN_PASSWORD, pass);
+        updatedValues.put(COLUMN_GP_NUMBER, gpNumber);
+
+        db.update(DATABASE_TABLE, updatedValues, COLUMN_ROWID + " = " + row , null);
+    }
+
+    //get user details
+    public String loginAuth(String username){
 
         String query = "select email, password from " + DATABASE_TABLE;
         Cursor cursor = db.rawQuery(query, null);
@@ -118,6 +121,7 @@ public class myMediCareDB {
         String a,b;
         b="NOT FOUND!";
 
+        int positionCount = 0;
 
         if (cursor != null){
             cursor.moveToFirst();
@@ -136,44 +140,32 @@ public class myMediCareDB {
                     b = cursor.getString(1);
                     break;
                 }
+                positionCount ++;
             }
             while (cursor.moveToNext());
 
+        //adds one to save from gaining previous lines information later (in Calculate Risk)
+        positionCount++;
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("positionCount",positionCount);
+        editor.apply();
+
+
         return b;
     }
-    //return all contacts from database
-
-//    public Cursor getAllUsers()
-//    {
-//        return db.query(DATABASE_TABLE, new String[] {COLUMN_ROWID, COLUMN_EMAIL,
-//                COLUMN_PASSWORD}, null, null, null, null, null);
-//    }
-//
-//    //return certain account
-//    public Cursor getAccount(int i) throws SQLException {
-//        //query database for current row for data
-//        Cursor mCursor = db.query(true, DATABASE_TABLE, new String[]
-//                {COLUMN_ROWID, COLUMN_EMAIL, COLUMN_PASSWORD, COLUMN_NAME, COLUMN_GP_NUMBER}, COLUMN_ROWID
-//                + " like " + i , null, null, null, null, null);
-//
-//        //if cursor exists, go to the first point in database
-//        if (mCursor != null) {
-//            mCursor.moveToFirst();
-//        }
-//        //return the cursor
-//        return mCursor;
-//    }
-//
-//    //insert data values into the database
-//    public void insertDetails(String name, String address, String gpname, String gpnumber, int row){
-//        //new instance of content values
-//        //add all parsed information
-//        ContentValues initialValues = new ContentValues();
-//            initialValues.put(COLUMN_NAME, name);
-//            //initialValues.put(COLUMN_GPNAME, gpname);
-//            initialValues.put(COLUMN_GP_NUMBER, gpnumber);
-//
-//            db.update(DATABASE_TABLE, initialValues, COLUMN_ROWID + "=" + row  ,null );
-//        }
-
+    public Cursor getAccount(int i) throws SQLException {
+        //query database for current row for data
+        Cursor mCursor = db.query(true, DATABASE_TABLE, new String[]
+                        {COLUMN_ROWID, COLUMN_EMAIL, COLUMN_PASSWORD, COLUMN_NAME, COLUMN_GP_NUMBER}, COLUMN_ROWID + " like " + i , null,
+                null, null, null, null);
+        //if cursor exists, go to the first point in database
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        //return the cursor
+        return mCursor;
+    }
 }
+//name 1, pass 2, username 3, email 4, number 5

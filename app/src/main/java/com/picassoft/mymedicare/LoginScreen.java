@@ -1,25 +1,16 @@
 package com.picassoft.mymedicare;
 
-import android.Manifest;
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.database.CursorIndexOutOfBoundsException;
-import android.database.SQLException;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import static android.Manifest.permission.READ_CONTACTS;
 
 public class LoginScreen extends AppCompatActivity {
 
@@ -59,13 +50,19 @@ public class LoginScreen extends AppCompatActivity {
                     //
                     try {
                         db.open();
-                        String password = db.searchUser(enteredEmail);
+                        String password = db.loginAuth(enteredEmail);
                         db.close();
 
                         if (enteredPass.equals(password)){
                             
                             Toast loginSucceeded = Toast.makeText(LoginScreen.this, "Logged in successfully as " + enteredEmail + ".", Toast.LENGTH_LONG);
                             loginSucceeded.show();
+
+                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginScreen.this);
+                            int h = 0;
+                            int userPosition = preferences.getInt("positionCount", h);
+                            Toast loginSucceed = Toast.makeText(LoginScreen.this, "name = " +  userPosition, Toast.LENGTH_LONG);
+                            loginSucceed.show();
 
                             Intent loginClick = new Intent(LoginScreen.this, NavDrawer.class);
                             startActivity(loginClick);
