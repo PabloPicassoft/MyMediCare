@@ -80,7 +80,6 @@ public class CreateAccount extends AppCompatActivity implements OnClickListener 
                 }
             }
         });
-
     }
 
     @Override
@@ -90,40 +89,6 @@ public class CreateAccount extends AppCompatActivity implements OnClickListener 
 
     @Override
     public void onClick(View v) {
-//        if (v.getId() == R.id.btn_signup) {
-//
-//
-//            EditText name = (EditText) findViewById(R.id.signup_name);
-//            EditText email = (EditText) findViewById(R.id.signup_email);
-//            EditText pass1 = (EditText) findViewById(R.id.signup_password1);
-//            EditText passConf = (EditText) findViewById(R.id.confirm_password);
-//            EditText gpNum = (EditText) findViewById(R.id.signup_gp_phone);
-//
-//            String nameStr = name.getText().toString();
-//            String emailStr = email.getText().toString();
-//            String pass1Str = pass1.getText().toString();
-//            String passConfStr = passConf.getText().toString();
-//
-//            int gpNumInt = Integer.parseInt(gpNum.getText().toString());
-//
-//
-//
-//            if (!pass1.equals(passConfStr)) {
-//                Toast passFailed = Toast.makeText(CreateAccount.this, "Passwords Don't Match!", Toast.LENGTH_SHORT);
-//                passFailed.show();
-//            } else {
-//                User user = new User();
-//
-//                user.setName(nameStr);
-//                user.setEmail(emailStr);
-//                user.setPassword(passConfStr);
-//                user.setGpNumber(gpNumInt);
-//
-//                db.insertUser(user);
-//
-//                Intent signUpClick = new Intent(CreateAccount.this, LoginScreen.class);
-//                startActivity(signUpClick);
-//            }
-//        }
+
     }
 }

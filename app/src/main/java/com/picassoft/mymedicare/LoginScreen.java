@@ -58,11 +58,11 @@ public class LoginScreen extends AppCompatActivity {
                             Toast loginSucceeded = Toast.makeText(LoginScreen.this, "Logged in successfully as " + enteredEmail + ".", Toast.LENGTH_LONG);
                             loginSucceeded.show();
 
-                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginScreen.this);
-                            int h = 0;
-                            int userPosition = preferences.getInt("positionCount", h);
-                            Toast loginSucceed = Toast.makeText(LoginScreen.this, "name = " +  userPosition, Toast.LENGTH_LONG);
-                            loginSucceed.show();
+//                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginScreen.this);
+//                            //int h = 0;
+//                            int userPosition = preferences.getInt("positionCount", 0);
+//                            Toast loginSucceed = Toast.makeText(LoginScreen.this, "name = " +  userPosition, Toast.LENGTH_LONG);
+//                            loginSucceed.show();
 
                             Intent loginClick = new Intent(LoginScreen.this, NavDrawer.class);
                             startActivity(loginClick);

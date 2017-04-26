@@ -3,6 +3,7 @@ package com.picassoft.mymedicare;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Set;
 
 public class Settings extends AppCompatActivity {
 
@@ -32,10 +35,17 @@ public class Settings extends AppCompatActivity {
 
 
         final TextView currentNum = (TextView) findViewById(R.id.current_num_view);
-        db.open();
-        Cursor num = db.getAccount(userPosition);
-        db.close();
-        currentNum.setText(String.valueOf(num.getString(4)));
+
+        try{
+            db.open();
+            Cursor num = db.getAccount(userPosition);
+            currentNum.setText(String.valueOf(num.getString(4)));
+            db.close();
+        } catch (CursorIndexOutOfBoundsException c) {
+            Toast.makeText(Settings.this, "NO NUMBER TO DISPLAY", Toast.LENGTH_LONG).show();
+        }
+
+
 
         Button updateSettings = (Button) findViewById(R.id.button_update_settings);
         updateSettings.setOnClickListener(new View.OnClickListener() {
@@ -44,6 +54,10 @@ public class Settings extends AppCompatActivity {
 
                 EditText newGPNumber = (EditText) findViewById(R.id.input_gp_number);
                 String newGPNumStr = newGPNumber.getText().toString();
+
+                preferences = PreferenceManager.getDefaultSharedPreferences(Settings.this);
+                int h = 0;
+                userPosition = preferences.getInt("positionCount", h);
 
                 db.open();
 
@@ -66,12 +80,16 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                preferences = PreferenceManager.getDefaultSharedPreferences(Settings.this);
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Settings.this);
                 int h = 0;
-                userPosition = preferences.getInt("positionCount", h);
-
+                int userPosition = preferences.getInt("positionCount", h);
+                //userPosition--;
+                Toast.makeText(Settings.this, "USER POSITION = " + userPosition ,Toast.LENGTH_SHORT).show();
                 db.open();
+
                 db.deleteByID(userPosition);
+                Toast.makeText(Settings.this, "USER POSITION = " + userPosition ,Toast.LENGTH_SHORT).show();
+
                 db.close();
 
                 Toast informDeletion = Toast.makeText(Settings.this, "Account has been deleted", Toast.LENGTH_LONG);

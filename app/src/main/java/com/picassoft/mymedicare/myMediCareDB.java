@@ -13,12 +13,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.webkit.ConsoleMessage;
-import android.widget.Toast;
 
 
 public class myMediCareDB {
     //variables for all columns in database
+    private static final String TAG = "DBHelper";
+
+    private static final String DATABASE_NAME = "MediDatabase";
+
+    private static final String USER_TABLE = "users";
     public static final String COLUMN_ROWID = "_id";
     public static final String COLUMN_EMAIL = "email";
     public static final String COLUMN_PASSWORD = "password";
@@ -27,15 +30,21 @@ public class myMediCareDB {
     public static final String COLUMN_GP_NUMBER = "gpnumber";
     //public static final String COLUMN_COLOURSCHEME = "colourScheme";
     //public static final String COLUMN_TEXTSIZE = "textSize";
-    private static final String TAG = "DBHelper";
-    private static final String DATABASE_NAME = "MediDatabase";
-    private static final String DATABASE_TABLE = "users";
+
+    private static final String MEASUREMENTS_TABLE = "measurements";
+    public static final String COLUMN_MEASUREMENTID = "_measureid";
+    public static final String COLUMN_FOREIGN_USERID = "_userid";
+    public static final String COLUMN_DATE = "date";
+    public static final String COLUMN_TEMPERATURE = "name";
+
+
     private static final int DATABASE_VERSION = 2;
 
     //string told database table name and order
-    private static final String DATABASE_CREATE = "create table users(_id integer primary key autoincrement, "
+    private static final String CREATE_USER_TABLE = "create table "+ USER_TABLE + "(_id integer primary key autoincrement, "
             +"email text not null, password text not null, name, gpnumber);";
 
+    private static final String CREATE_MEASUREMENTS_TABLE = "";
     //variables for holding database context, helper and SQLite instances
     private final Context context;
     private DatabaseHelper DBHelper;
@@ -58,7 +67,7 @@ public class myMediCareDB {
         @Override
         public void onCreate(SQLiteDatabase db){
 
-                db.execSQL(DATABASE_CREATE);
+                db.execSQL(CREATE_USER_TABLE);
         }
 
         //if the database is updated, wipe it to prevent conflicts
@@ -93,11 +102,11 @@ public class myMediCareDB {
         initialValues.put(COLUMN_PASSWORD, user.getPassword());
         initialValues.put(COLUMN_GP_NUMBER, user.getGpNumber());
 
-        db.insert(DATABASE_TABLE, null, initialValues);
+        db.insert(USER_TABLE, null, initialValues);
     }
 
     public  void deleteByID(int row) {
-        db.delete(DATABASE_TABLE, COLUMN_ROWID + " = " + row, null);
+        db.delete(USER_TABLE, COLUMN_ROWID + " = " + row, null);
     }
 
     public void updateDB(String email, String name, String pass, String gpNumber, int row) {
@@ -109,23 +118,24 @@ public class myMediCareDB {
         updatedValues.put(COLUMN_PASSWORD, pass);
         updatedValues.put(COLUMN_GP_NUMBER, gpNumber);
 
-        db.update(DATABASE_TABLE, updatedValues, COLUMN_ROWID + " = " + row , null);
+        db.update(USER_TABLE, updatedValues, COLUMN_ROWID + " = " + row , null);
     }
 
     //get user details
     public String loginAuth(String username){
 
-        String query = "select email, password from " + DATABASE_TABLE;
+        String query = "select email, password from " + USER_TABLE;
         Cursor cursor = db.rawQuery(query, null);
 
         String a,b;
         b="NOT FOUND!";
 
         int positionCount = 0;
+      //
+        if (cursor != null) {
 
-        if (cursor != null){
             cursor.moveToFirst();
-        }
+
             do {
                 //check if any email has been registered
 //                if (cursor.getString(0).equals(null)){
@@ -141,9 +151,9 @@ public class myMediCareDB {
                     break;
                 }
                 positionCount ++;
-            }
-            while (cursor.moveToNext());
+            } while (cursor.moveToNext());
 
+        }
         //adds one to save from gaining previous lines information later (in Calculate Risk)
         positionCount++;
 
@@ -152,12 +162,13 @@ public class myMediCareDB {
         editor.putInt("positionCount",positionCount);
         editor.apply();
 
-
         return b;
     }
+
+
     public Cursor getAccount(int i) throws SQLException {
         //query database for current row for data
-        Cursor mCursor = db.query(true, DATABASE_TABLE, new String[]
+        Cursor mCursor = db.query(true, USER_TABLE, new String[]
                         {COLUMN_ROWID, COLUMN_EMAIL, COLUMN_PASSWORD, COLUMN_NAME, COLUMN_GP_NUMBER}, COLUMN_ROWID + " like " + i , null,
                 null, null, null, null);
         //if cursor exists, go to the first point in database
