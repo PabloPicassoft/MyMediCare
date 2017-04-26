@@ -36,16 +36,33 @@ public class myMediCareDB {
     public static final String COLUMN_MEASUREMENTID = "_measureid";
     public static final String COLUMN_FOREIGN_USERID = "_userid";
     public static final String COLUMN_DATE = "date";
-    public static final String COLUMN_TEMPERATURE = "name";
+    public static final String COLUMN_TEMPERATURE = "temperature";
+    public static final String COLUMN_LBP = "lbp";
+    public static final String COLUMN_HBP = "hbp";
+    public static final String COLUMN_HEARTRATE = "heartrate";
 
 
     private static final int DATABASE_VERSION = 2;
 
     //string told database table name and order
-    private static final String CREATE_USER_TABLE = "create table "+ USER_TABLE + "(_id integer primary key autoincrement, "
-            +"email text not null, password text not null, name, gpnumber);";
+    private static final String CREATE_USER_TABLE = "create table "+ USER_TABLE + "("
+            + COLUMN_ROWID + " integer primary key autoincrement, "
+            + COLUMN_EMAIL + " text not null, "
+            + COLUMN_PASSWORD + " text not null, "
+            + COLUMN_NAME + " text not null, "
+            + COLUMN_GP_NUMBER + " integer not null);";
 
-    private static final String CREATE_MEASUREMENTS_TABLE = "";
+    private static final String CREATE_MEASUREMENTS_TABLE = "create table "+ MEASUREMENTS_TABLE + "("
+            + COLUMN_MEASUREMENTID + " integer primary key autoincrement, "
+            + COLUMN_FOREIGN_USERID + " text not null, "
+            + COLUMN_DATE + " int, "
+            + COLUMN_TEMPERATURE + " int not null, "
+            + COLUMN_LBP + " int not null, "
+            + COLUMN_HBP + " int not null, "
+            + COLUMN_HEARTRATE + " int not null, "
+            + COLUMN_LBP + " int not null, "
+            + "foreign key (" + COLUMN_FOREIGN_USERID + ") references " + USER_TABLE + "(" + COLUMN_ROWID + ")" + ");";
+
     //variables for holding database context, helper and SQLite instances
     private final Context context;
     private DatabaseHelper DBHelper;
@@ -68,7 +85,8 @@ public class myMediCareDB {
         @Override
         public void onCreate(SQLiteDatabase db){
 
-                db.execSQL(CREATE_USER_TABLE);
+            db.execSQL(CREATE_USER_TABLE);
+            db.execSQL(CREATE_MEASUREMENTS_TABLE);
         }
 
         //if the database is updated, wipe it to prevent conflicts
@@ -125,6 +143,7 @@ public class myMediCareDB {
 
     //get user details
     public String loginAuth(String username){
+
 
         String query = "select _id, email, password from " + USER_TABLE;
         Cursor cursor = db.rawQuery(query, null);

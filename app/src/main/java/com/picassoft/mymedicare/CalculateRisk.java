@@ -62,6 +62,7 @@ public class CalculateRisk extends AppCompatActivity {
                     TextView temp = (TextView) findViewById(R.id.input_temperature);
                     TextView Hibp = (TextView) findViewById(R.id.input_bp_high);
                     TextView Lobp = (TextView) findViewById(R.id.input_bp_low);
+                    Lobp.setTextSize(DataManager.textSizeHeader);
                     TextView hr = (TextView) findViewById(R.id.input_heartrate);
 
                     //setup variable to hold spinner id value holding temp type selected

@@ -28,11 +28,11 @@
             tools:gravity="center"
             android:gravity="center"
             android:textStyle="normal|bold"
-            android:textSize="28sp"
             android:fontFamily="sans-serif"
             android:textColor="@color/colorPrimaryDark"
             android:layout_marginBottom="15dp"
-            android:layout_marginTop="15dp" />
+            android:layout_marginTop="15dp"
+            style="@style/textstyle28"/>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"

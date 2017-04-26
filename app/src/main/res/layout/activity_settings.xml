@@ -121,6 +121,7 @@
             android:paddingBottom="10dp">
 
             <RadioGroup
+                android:id="@+id/radiogroup_text_size"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1" >
