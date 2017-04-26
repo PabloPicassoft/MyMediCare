@@ -13,6 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 
 public class myMediCareDB {
@@ -106,7 +107,8 @@ public class myMediCareDB {
     }
 
     public  void deleteByID(int row) {
-        db.delete(USER_TABLE, COLUMN_ROWID + " = " + row, null);
+        long result = db.delete(USER_TABLE, COLUMN_ROWID + " = " + row, null);
+        Log.d(TAG, String.valueOf(result));
     }
 
     public void updateDB(String email, String name, String pass, String gpNumber, int row) {
@@ -124,7 +126,7 @@ public class myMediCareDB {
     //get user details
     public String loginAuth(String username){
 
-        String query = "select email, password from " + USER_TABLE;
+        String query = "select _id, email, password from " + USER_TABLE;
         Cursor cursor = db.rawQuery(query, null);
 
         String a,b;
@@ -143,19 +145,21 @@ public class myMediCareDB {
 //                    warning.show();
 //                    break;
 //                } else {
-                    a = cursor.getString(0);
+                    a = cursor.getString(1);
 //                }
 
                 if (a.equals(username)){
-                    b = cursor.getString(1);
+                    b = cursor.getString(2);
+                    positionCount = Integer.parseInt(cursor.getString(0));
+
                     break;
                 }
-                positionCount ++;
+
             } while (cursor.moveToNext());
 
         }
         //adds one to save from gaining previous lines information later (in Calculate Risk)
-        positionCount++;
+
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
         SharedPreferences.Editor editor = preferences.edit();
