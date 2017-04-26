@@ -60,6 +60,11 @@ public class CreateAccount extends AppCompatActivity implements OnClickListener 
                         Toast passFailed = Toast.makeText(CreateAccount.this, "Passwords Don't Match!", Toast.LENGTH_SHORT);
                         passFailed.show();
                     } else {
+
+                        //Toast checkNumber = Toast.makeText(CreateAccount.this, "number: " + gpNumStr, Toast.LENGTH_SHORT);
+                        //checkNumber.show();
+
+
                         User user = new User();
 
                         user.setName(nameStr);

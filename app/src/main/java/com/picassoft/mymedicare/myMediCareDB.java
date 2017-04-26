@@ -50,7 +50,7 @@ public class myMediCareDB {
             + COLUMN_EMAIL + " text not null, "
             + COLUMN_PASSWORD + " text not null, "
             + COLUMN_NAME + " text not null, "
-            + COLUMN_GP_NUMBER + " integer not null);";
+            + COLUMN_GP_NUMBER + ");";
 
     private static final String CREATE_MEASUREMENTS_TABLE = "create table "+ MEASUREMENTS_TABLE + "("
             + COLUMN_MEASUREMENTID + " integer primary key autoincrement, "
@@ -60,7 +60,6 @@ public class myMediCareDB {
             + COLUMN_LBP + " int not null, "
             + COLUMN_HBP + " int not null, "
             + COLUMN_HEARTRATE + " int not null, "
-            + COLUMN_LBP + " int not null, "
             + "foreign key (" + COLUMN_FOREIGN_USERID + ") references " + USER_TABLE + "(" + COLUMN_ROWID + ")" + ");";
 
     //variables for holding database context, helper and SQLite instances
@@ -94,7 +93,7 @@ public class myMediCareDB {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
                     + newVersion + ", which will destroy all old data");
-            db.execSQL("DROP TABLE IF EXISTS login");
+            db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE);
             onCreate(db);
         }
     }
@@ -145,7 +144,7 @@ public class myMediCareDB {
     public String loginAuth(String username){
 
 
-        String query = "select _id, email, password from " + USER_TABLE;
+        String query = "select _id, email, password, gpnumber from " + USER_TABLE;
         Cursor cursor = db.rawQuery(query, null);
 
         String a,b;
@@ -177,13 +176,14 @@ public class myMediCareDB {
             } while (cursor.moveToNext());
 
         }
-        //adds one to save from gaining previous lines information later (in Calculate Risk)
-
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("positionCount",positionCount);
         editor.apply();
+
+        Toast checkNumber = Toast.makeText(this.context, "number: " +cursor.getString(3), Toast.LENGTH_SHORT);
+        checkNumber.show();
 
         return b;
     }

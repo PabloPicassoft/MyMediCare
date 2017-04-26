@@ -22,7 +22,9 @@ public class Settings extends AppCompatActivity {
 
     myMediCareDB db;
     SharedPreferences preferences;
+
     static int userPosition;
+
     RadioGroup radioGroup;
     private static final String TAG = "Settings";
 
@@ -47,10 +49,17 @@ public class Settings extends AppCompatActivity {
                 {
                     case R.id.radio_textsize_small:
 
+
                     break;
+
                     case R.id.radio_textsize_medium:
+
+
                     break;
+
                     case R.id.radio_textsize_Large:
+
+
                     break;
                 }
             }
@@ -63,6 +72,8 @@ public class Settings extends AppCompatActivity {
             Cursor num = db.getAccount(userPosition);
             currentNum.setText(String.valueOf(num.getString(4)));
             db.close();
+
+            Toast.makeText(Settings.this, String.valueOf(num.getString(4)), Toast.LENGTH_LONG).show();
         } catch (CursorIndexOutOfBoundsException c) {
             Toast.makeText(Settings.this, "NO NUMBER TO DISPLAY", Toast.LENGTH_LONG).show();
         }
