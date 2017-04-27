@@ -13,6 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class NavDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -24,14 +27,55 @@ public class NavDrawer extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        TextView tv =(TextView)findViewById(R.id.main_menu_text);
+
+        tv.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                Intent dbmanager = new Intent(NavDrawer.this,AndroidDatabaseManager.class);
+                startActivity(dbmanager);
+            }
+        });
+
+        final Button calcRisk = (Button) findViewById(R.id.main_calculate_risk);
+        calcRisk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.getId() == R.id.main_calculate_risk) {
+                    startActivity(new Intent(NavDrawer.this, CalculateRisk.class));
+                }
+            }
+        });
+
+        final Button pastMeasure = (Button) findViewById(R.id.main_past_measurements);
+        pastMeasure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.getId() == R.id.main_past_measurements) {
+                    startActivity(new Intent(NavDrawer.this, PastMeasurements.class));
+                }
+            }
+        });
+
+        final Button settings = (Button) findViewById(R.id.main_settings);
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.getId() == R.id.main_settings) {
+                    startActivity(new Intent(NavDrawer.this, Settings.class));
+                }
+            }
+        });
+
+        final Button logout = (Button) findViewById(R.id.button_main_logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.getId() == R.id.button_main_logout) {
+                    startActivity(new Intent(NavDrawer.this, LoginScreen.class));
+                }
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

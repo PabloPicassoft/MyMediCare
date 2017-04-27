@@ -10,17 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class LoginScreen extends AppCompatActivity {
 
     public myMediCareDB db;
-
-    //ID to identity READ_CONTACTS permission request.
-    private static final int REQUEST_READ_CONTACTS = 0;
-
-    private EditText mEmailView;
-    private EditText mPasswordView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +24,17 @@ public class LoginScreen extends AppCompatActivity {
 
         db = new myMediCareDB(getBaseContext());
 
-        //remove title bar for better look, set content view afterwards to avoid runtime error
-        ////this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        ////fullscreen?
-        ////this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         setContentView(R.layout.activity_login_screen);
+
+        TextView tv =(TextView)findViewById(R.id.WrittenLogo);
+
+        tv.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                Intent dbmanager = new Intent(LoginScreen.this,AndroidDatabaseManager.class);
+                startActivity(dbmanager);
+            }
+        });
 
         final Button login = (Button) findViewById(R.id.btn_login);
         login.setOnClickListener(new OnClickListener() {
@@ -57,12 +57,6 @@ public class LoginScreen extends AppCompatActivity {
                             
                             Toast loginSucceeded = Toast.makeText(LoginScreen.this, "Logged in successfully as " + enteredEmail + ".", Toast.LENGTH_LONG);
                             loginSucceeded.show();
-
-                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginScreen.this);
-                            //int h = 0;
-                            int userPosition = preferences.getInt("positionCount", 0);
-                            Toast loginSucceed = Toast.makeText(LoginScreen.this, "name = " +  userPosition, Toast.LENGTH_LONG);
-                            loginSucceed.show();
 
                             Intent loginClick = new Intent(LoginScreen.this, NavDrawer.class);
                             startActivity(loginClick);

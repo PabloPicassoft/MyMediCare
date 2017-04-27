@@ -29,10 +29,10 @@
             android:textAlignment="center"
             android:textStyle="normal|bold"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="26sp"
+            android:textSize="28sp"
             android:layout_weight="0.09"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="30dp" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -46,15 +46,18 @@
                 android:layout_height="52dp"
                 app:srcCompat="@drawable/ic_menu_calculate"
                 android:id="@+id/caluclation_image"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:layout_weight="1" />
 
             <Button
                 android:text="Calculate Risk"
-                android:layout_height="match_parent"
-                android:id="@+id/main_calculate_risk_"
+                android:layout_height="wrap_content"
+                android:id="@+id/main_calculate_risk"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="20dp"
-                android:layout_width="match_parent" />
+                android:layout_width="200dip"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -74,12 +77,13 @@
 
             <Button
                 android:text="Past Measurements"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/button_main_past_measurements"
+                android:id="@+id/main_past_measurements"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="20dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_marginTop="10dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -94,16 +98,18 @@
                 android:layout_height="52dp"
                 app:srcCompat="@drawable/ic_menu_settings"
                 android:id="@+id/imageView5"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_marginTop="10dp" />
 
             <Button
                 android:text="Settings"
-                android:layout_height="match_parent"
-                android:id="@+id/button_main_settings"
+                android:layout_height="wrap_content"
+                android:id="@+id/main_settings"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="1"
-                android:layout_width="wrap_content" />
+                android:layout_width="200dp"
+                android:layout_marginTop="10dp" />
 
         </LinearLayout>
 

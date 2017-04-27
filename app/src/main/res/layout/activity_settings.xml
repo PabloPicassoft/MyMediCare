@@ -117,8 +117,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:paddingBottom="10dp">
+            android:layout_marginBottom="8dp">
 
             <RadioGroup
                 android:id="@+id/radiogroup_text_size"
@@ -132,6 +131,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/radio_textsize_small"
                     android:layout_weight="1.17"
+
                     android:textAlignment="center" />
 
                 <RadioButton
@@ -180,6 +180,14 @@
                     android:layout_marginLeft="10dp" />
 
             </LinearLayout>
+
+            <Button
+                android:text="Home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/back_to_main"
+                android:layout_weight="1"
+                android:layout_marginTop="20dp" />
 
         </android.support.design.widget.TextInputLayout>
 

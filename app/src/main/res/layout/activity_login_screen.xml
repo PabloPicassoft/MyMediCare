@@ -36,7 +36,7 @@
             android:layout_weight="0.05"
             android:textStyle="normal|bold"
             android:textAlignment="center"
-            android:textSize="26sp"
+            android:textSize="28sp"
             android:fontFamily="serif"
             android:layout_marginBottom="10dp" />
 

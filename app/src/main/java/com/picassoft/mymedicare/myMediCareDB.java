@@ -8,12 +8,15 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 
 public class myMediCareDB {
@@ -23,7 +26,7 @@ public class myMediCareDB {
     private static final String DATABASE_NAME = "MediDatabase";
 
     private static final String USER_TABLE = "users";
-    public static final String COLUMN_ROWID = "_id";
+    public static final String COLUMN_USERID = "_id";
     public static final String COLUMN_EMAIL = "email";
     public static final String COLUMN_PASSWORD = "password";
     public static final String COLUMN_NAME = "name";
@@ -46,7 +49,7 @@ public class myMediCareDB {
 
     //string told database table name and order
     private static final String CREATE_USER_TABLE = "create table "+ USER_TABLE + "("
-            + COLUMN_ROWID + " integer primary key autoincrement, "
+            + COLUMN_USERID + " integer primary key autoincrement, "
             + COLUMN_EMAIL + " text not null, "
             + COLUMN_PASSWORD + " text not null, "
             + COLUMN_NAME + " text not null, "
@@ -55,17 +58,18 @@ public class myMediCareDB {
     private static final String CREATE_MEASUREMENTS_TABLE = "create table "+ MEASUREMENTS_TABLE + "("
             + COLUMN_MEASUREMENTID + " integer primary key autoincrement, "
             + COLUMN_FOREIGN_USERID + " text not null, "
-            + COLUMN_DATE + " int, "
-            + COLUMN_TEMPERATURE + " int not null, "
-            + COLUMN_LBP + " int not null, "
-            + COLUMN_HBP + " int not null, "
-            + COLUMN_HEARTRATE + " int not null, "
-            + "foreign key (" + COLUMN_FOREIGN_USERID + ") references " + USER_TABLE + "(" + COLUMN_ROWID + ")" + ");";
+            + COLUMN_DATE + " text, "
+            + COLUMN_TEMPERATURE + " text not null, "
+            + COLUMN_LBP + " text not null, "
+            + COLUMN_HBP + " text not null, "
+            + COLUMN_HEARTRATE + " text not null, "
+            + "foreign key (" + COLUMN_FOREIGN_USERID + ") references " + USER_TABLE + "(" + COLUMN_USERID + ")" + ");";
 
     //variables for holding database context, helper and SQLite instances
     private final Context context;
     private DatabaseHelper DBHelper;
     private SQLiteDatabase db;
+    SQLiteDatabase sqlDB;
 
     //method to create instance of database helper
     public myMediCareDB(Context ctx)
@@ -93,7 +97,7 @@ public class myMediCareDB {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
                     + newVersion + ", which will destroy all old data");
-            db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE + ", " + MEASUREMENTS_TABLE);
             onCreate(db);
         }
     }
@@ -101,8 +105,11 @@ public class myMediCareDB {
     //open database
     public myMediCareDB open() throws SQLException {
         db = DBHelper.getWritableDatabase();
+        sqlDB = DBHelper.getWritableDatabase();
         return this;
     }
+
+
 
     //close the database
     public void close() {
@@ -124,7 +131,7 @@ public class myMediCareDB {
     }
 
     public  void deleteByID(int row) {
-        long result = db.delete(USER_TABLE, COLUMN_ROWID + " = " + row, null);
+        long result = db.delete(USER_TABLE, COLUMN_USERID + " = " + row, null);
         Log.d(TAG, String.valueOf(result));
     }
 
@@ -137,7 +144,7 @@ public class myMediCareDB {
         updatedValues.put(COLUMN_PASSWORD, pass);
         updatedValues.put(COLUMN_GP_NUMBER, gpNumber);
 
-        db.update(USER_TABLE, updatedValues, COLUMN_ROWID + " = " + row , null);
+        db.update(USER_TABLE, updatedValues, COLUMN_USERID + " = " + row , null);
     }
 
     //get user details
@@ -151,20 +158,13 @@ public class myMediCareDB {
         b="NOT FOUND!";
 
         int positionCount = 0;
-      //
+
         if (cursor != null) {
 
             cursor.moveToFirst();
 
             do {
-                //check if any email has been registered
-//                if (cursor.getString(0).equals(null)){
-//                    Toast warning = Toast.makeText(this.context, "Please register an email.", Toast.LENGTH_SHORT);
-//                    warning.show();
-//                    break;
-//                } else {
                     a = cursor.getString(1);
-//                }
 
                 if (a.equals(username)){
                     b = cursor.getString(2);
@@ -182,17 +182,17 @@ public class myMediCareDB {
         editor.putInt("positionCount",positionCount);
         editor.apply();
 
-        Toast checkNumber = Toast.makeText(this.context, "number: " +cursor.getString(3), Toast.LENGTH_SHORT);
-        checkNumber.show();
+//        Toast checkNumber = Toast.makeText(this.context, "number: " +cursor.getString(3), Toast.LENGTH_SHORT);
+//        checkNumber.show();
 
         return b;
     }
 
 
     public Cursor getAccount(int i) throws SQLException {
-        //query database for current row for data
+        //query database for current row for datca
         Cursor mCursor = db.query(true, USER_TABLE, new String[]
-                        {COLUMN_ROWID, COLUMN_EMAIL, COLUMN_PASSWORD, COLUMN_NAME, COLUMN_GP_NUMBER}, COLUMN_ROWID + " like " + i , null,
+                        {COLUMN_USERID, COLUMN_EMAIL, COLUMN_PASSWORD, COLUMN_NAME, COLUMN_GP_NUMBER}, COLUMN_USERID + " like " + i , null,
                 null, null, null, null);
         //if cursor exists, go to the first point in database
         if (mCursor != null) {
@@ -201,5 +201,50 @@ public class myMediCareDB {
         //return the cursor
         return mCursor;
     }
+
+    public ArrayList<Cursor> getData(String Query){
+        //get writable database
+
+        String[] columns = new String[] { "message" };
+        //an array list of cursor to save two cursors one has results from the query
+        //other cursor stores error message if any errors are triggered
+        ArrayList<Cursor> alc = new ArrayList<Cursor>(2);
+        MatrixCursor Cursor2= new MatrixCursor(columns);
+        alc.add(null);
+        alc.add(null);
+
+        try{
+            String maxQuery = Query ;
+            //execute the query results will be save in Cursor c
+            Cursor c = sqlDB.rawQuery(maxQuery, null);
+
+            //add value to cursor2
+            Cursor2.addRow(new Object[] { "Success" });
+
+            alc.set(1,Cursor2);
+            if (null != c && c.getCount() > 0) {
+
+                alc.set(0,c);
+                c.moveToFirst();
+
+                return alc ;
+            }
+            return alc;
+        } catch(SQLException sqlEx){
+            Log.d("printing exception", sqlEx.getMessage());
+            //if any exceptions are triggered save the error message to cursor an return the arraylist
+            Cursor2.addRow(new Object[] { ""+sqlEx.getMessage() });
+            alc.set(1,Cursor2);
+            return alc;
+        } catch(Exception ex){
+            Log.d("printing exception", ex.getMessage());
+
+            //if any exceptions are triggered save the error message to cursor an return the arraylist
+            Cursor2.addRow(new Object[] { ""+ex.getMessage() });
+            alc.set(1,Cursor2);
+            return alc;
+        }
+    }
+
 }
 //name 1, pass 2, username 3, email 4, number 5
