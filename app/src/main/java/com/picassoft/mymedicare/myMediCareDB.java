@@ -14,6 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -39,9 +40,13 @@ public class myMediCareDB {
     public static final String COLUMN_FOREIGN_USERID = "_userid";
     public static final String COLUMN_DATE = "date";
     public static final String COLUMN_TEMPERATURE = "temperature";
+    //public static final String COLUMN_TEMPERATURE_VERDICT = "temperature_verdict";
     public static final String COLUMN_LBP = "lbp";
+    //public static final String COLUMN_LBP_VERDICT = "lbp_verdict";
     public static final String COLUMN_HBP = "hbp";
+    //public static final String COLUMN_HBP_VERDICT = "hbp_verdict";
     public static final String COLUMN_HEARTRATE = "heartrate";
+    //public static final String COLUMN_HEARTRATE_VERDICT = "heartrate_verdict";
 
 
     private static final int DATABASE_VERSION = 2;
@@ -68,7 +73,7 @@ public class myMediCareDB {
     private final Context context;
     private DatabaseHelper DBHelper;
     private SQLiteDatabase db;
-    SQLiteDatabase sqlDB;
+    //SQLiteDatabase sqlDB;
 
     //method to create instance of database helper
     public myMediCareDB(Context ctx)
@@ -87,8 +92,9 @@ public class myMediCareDB {
         @Override
         public void onCreate(SQLiteDatabase db){
 
-            db.execSQL(CREATE_USER_TABLE);
             db.execSQL(CREATE_MEASUREMENTS_TABLE);
+            db.execSQL(CREATE_USER_TABLE);
+
         }
 
         //if the database is updated, wipe it to prevent conflicts
@@ -96,7 +102,8 @@ public class myMediCareDB {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
                     + newVersion + ", which will destroy all old data");
-            db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE + ", " + MEASUREMENTS_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS " + MEASUREMENTS_TABLE);
             onCreate(db);
         }
     }
@@ -113,23 +120,43 @@ public class myMediCareDB {
         DBHelper.close();
     }
 
-    //add new row and contact to database
+    //add new row and calc to database
     public void insertCalculation(Calculation calc) {
 
-        //populate rows with username and password
+        //populate rows with measurements
         ContentValues newCalc = new ContentValues();
 
 
         newCalc.put(COLUMN_TEMPERATURE, calc.getTemperatureReading());
         newCalc.put(COLUMN_LBP, calc.getlBPReading());
-        newCalc.put(COLUMN_HBP, calc.gethBPREADING());
+        newCalc.put(COLUMN_HBP, calc.gethBPReading());
         newCalc.put(COLUMN_HEARTRATE, calc.getHeartRateReading());
+        newCalc.put(COLUMN_FOREIGN_USERID, calc.getForeignUserID());
+        newCalc.put(COLUMN_DATE, calc.getDateAndTime());
 
         db.insert(MEASUREMENTS_TABLE, null, newCalc);
+
+        Toast.makeText(this.context, ""+newCalc  , Toast.LENGTH_LONG).show();
     }
+
+    public Cursor getCalculation(int i) throws SQLException {
+        //query database for current row for datca
+        Cursor mCursor = db.query(true, MEASUREMENTS_TABLE, new String[]
+                        {COLUMN_MEASUREMENTID, COLUMN_FOREIGN_USERID, COLUMN_DATE, COLUMN_TEMPERATURE, COLUMN_LBP, COLUMN_HBP, COLUMN_HEARTRATE}, COLUMN_FOREIGN_USERID + " like " + i , null,
+                null, null, null, null);
+        //if cursor exists, go to the first point in database
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        //return the cursor
+        return mCursor;
+    }
+
+
 
     public  void deleteByID(int row) {
         long result = db.delete(USER_TABLE, COLUMN_USERID + " = " + row, null);
+        //db.delete(MEASUREMENTS_TABLE, COLUMN_FOREIGN_USERID + " = " + row, null);
         Log.d(TAG, String.valueOf(result));
     }
 

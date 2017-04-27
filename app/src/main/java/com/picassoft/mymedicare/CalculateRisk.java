@@ -18,16 +18,23 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class CalculateRisk extends AppCompatActivity {
 
     myMediCareDB db;
 
-    String tempResult = "";
-    String HBPResult = "";
-    String LBPResult = "";
-    String BPMResult = "";
+//    String tempResult = "";
+//    String HBPResult = "";
+//    String LBPResult = "";
+//    String BPMResult = "";
 
     int highRiskCount = 0;
 
@@ -160,9 +167,6 @@ public class CalculateRisk extends AppCompatActivity {
                         }
                     }
 
-                    Calculation calc = new Calculation();
-
-                    //calc.set();
 
 //                  String outputRisk = getString(highRiskCount);
                     TextView output = (TextView) findViewById(R.id.output_riskyness);
@@ -172,12 +176,50 @@ public class CalculateRisk extends AppCompatActivity {
 
                     int h = 0;
                     int userPosition = preferences.getInt("positionCount", h);
-                    Toast loginSucceeded = Toast.makeText(CalculateRisk.this, "name = " +  userPosition, Toast.LENGTH_LONG);
-                    loginSucceeded.show();
+//                    Toast loginSucceeded = Toast.makeText(CalculateRisk.this, "name = " +  userPosition, Toast.LENGTH_LONG);
+//                    loginSucceeded.show();
+
+                    /***************************** INSERT NEW CALCULATION RECORD *********************/
+                    Calculation calc = new Calculation();
+
+                    //Foreign userID
+                    calc.setForeignUserID(userPosition);
+
+                    //temperature data
+                    calc.setTemperatureReading(temp.getText().toString());
+                    calc.setVerdictTemp(verdictTemp);
+
+                    //lbp data
+                    calc.setlBPReading(Lobp.getText().toString());
+                    calc.setVerdictLBP(verdictLBP);
+
+                    //hbp data
+                    calc.sethBPReading(Hibp.getText().toString());
+                    calc.setVerdictHBP(verdictHBP);
+
+                    //Heart Rate data
+                    calc.setHeartRateReading(hr.getText().toString());
+                    calc.setVerdictHR(verdictHR);
+
+                    Calendar calendar = Calendar.getInstance();
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy 'at' HH:mm:ss");
+                    String strDate = sdf.format(calendar.getTime());
+
+                    calc.setDateAndTime(strDate);
+
+
+                    Toast.makeText(getBaseContext(), ""+strDate, Toast.LENGTH_LONG).show();
+
+
+
+//                    db.open();
+//                    db.insertCalculation(calc);
+//                    db.close();
 
                     db.open();
 
                     final Cursor c = db.getAccount(userPosition);
+                    db.insertCalculation(calc);
 
                     db.close();
 

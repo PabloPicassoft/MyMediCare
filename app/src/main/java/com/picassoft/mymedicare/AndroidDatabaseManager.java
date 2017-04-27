@@ -1,6 +1,7 @@
 //add your package name here example: package com.example.dbm;
 package com.picassoft.mymedicare;
 //all required import files
+import java.sql.SQLData;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import android.app.Activity;
@@ -237,14 +238,14 @@ public class AndroidDatabaseManager extends Activity implements OnItemClickListe
 					
 					tvmessage.setBackgroundColor(Color.parseColor("#2ecc71"));
 					if(c4!=null){
-						tvmessage.setText("Queru Executed successfully.Number of rows returned :"+c4.getCount());
+						tvmessage.setText("Query Executed successfully.Number of rows returned :"+c4.getCount());
 						if(c4.getCount()>0)
 						{
 						indexInfo.maincursor=c4;
 						refreshTable(1);
 						}
 					}else{
-				 	  	tvmessage.setText("Queru Executed successfully");
+				 	  	tvmessage.setText("Query Executed successfully");
 					  	refreshTable(1);		
 					}
 					
@@ -263,7 +264,7 @@ public class AndroidDatabaseManager extends Activity implements OnItemClickListe
        tableRowParams.setMargins(0, 0, 2, 0);
 
        // a query which returns a cursor with the list of tables in the database.We use this cursor to populate spinner in the first row
-		alc = dbm.getData(Query);
+		alc = dbm.getData("select name from sqlite_master where type = \"table\";");
 		
 		//the first cursor has reults of the query
 		final Cursor c=alc.get(0);
@@ -844,7 +845,7 @@ public class AndroidDatabaseManager extends Activity implements OnItemClickListe
       	  crudadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
      
           crud_dropdown.setAdapter(crudadapter);
-          lcrud.setId(View.generateViewId());
+          lcrud.setId(299);
           lcrud.addView(crud_dropdown,paramcrudtext);
 
           RelativeLayout.LayoutParams rlcrudparam = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);

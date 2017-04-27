@@ -6,7 +6,31 @@ package com.picassoft.mymedicare;
 
 public class Calculation {
 
-    String lBPReading, hBPReading, temperatureReading, heartRateReading;
+    int foreignUserID;
+    String lBPReading;
+    String hBPReading;
+    String temperatureReading;
+    String heartRateReading;
+
+    public String getDateAndTime() {
+        return dateAndTime;
+    }
+
+    public void setDateAndTime(String dateAndTime) {
+        this.dateAndTime = dateAndTime;
+    }
+
+    String dateAndTime;
+
+    public int getForeignUserID() {
+        return foreignUserID;
+    }
+
+    public void setForeignUserID(int foreignUserID) {
+        this.foreignUserID = foreignUserID;
+    }
+
+
 
     public String gethBPReading() {
         return hBPReading;
