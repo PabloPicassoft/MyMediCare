@@ -160,6 +160,10 @@ public class CalculateRisk extends AppCompatActivity {
                         }
                     }
 
+                    Calculation calc = new Calculation();
+
+                    //calc.set();
+
 //                  String outputRisk = getString(highRiskCount);
                     TextView output = (TextView) findViewById(R.id.output_riskyness);
                     output.setText(String.valueOf(highRiskCount));
@@ -178,28 +182,6 @@ public class CalculateRisk extends AppCompatActivity {
                     db.close();
 
 
-//                    try {
-//                        //Store SMS message containing user's measurements,
-//                        String gpSMSMessage = c.getString(3) + " has a Temperature of " + tempInt + celsiusOrFahr +
-//                                ", Blood Pressure Reading of " + LBPInt + "/" + HBPInt +
-//                                ", and an average Heart Rate of " + HRInt + ". Please book an appointment for " + c.getString(3) + " as soon as possible.";
-//
-//                        //initialise an smsmanager to user the default messaging application
-//                        SmsManager smsService = SmsManager.getDefault();
-//
-//                        //as the message is longer than 160 characters, use divideMessage to split the message into transmittable chunks.
-//                        ArrayList<String> parts = smsService.divideMessage(gpSMSMessage);
-//
-//                        //instead of using sendTextMessage, use sendMultiPart version that accepts String arraylist rather than String variable.
-//                        smsService.sendMultipartTextMessage(c.getString(4), null, parts, null, null);
-//
-//                        Toast messageSent = Toast.makeText(CalculateRisk.this, "Text Message Sent to " + c.getString(4), Toast.LENGTH_LONG);
-//                        messageSent.show();
-//                    }
-//                    catch (Exception e){
-//                        Toast messageSent = Toast.makeText(CalculateRisk.this, "Text Message Failed to Send. Please check stored number.", Toast.LENGTH_LONG);
-//                        messageSent.show();
-//                    }
                     final AlertDialog.Builder highRiskAlert  = new AlertDialog.Builder(CalculateRisk.this);
                     highRiskAlert.setMessage("An SMS has been sent to alert your GP of your measurements, and an appointment will be booked. \n" +
                             "\nPlease keep an eye on your inbox for your GP's confirmation of the appointment.");

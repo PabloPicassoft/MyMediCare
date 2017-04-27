@@ -14,7 +14,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -105,11 +104,9 @@ public class myMediCareDB {
     //open database
     public myMediCareDB open() throws SQLException {
         db = DBHelper.getWritableDatabase();
-        sqlDB = DBHelper.getWritableDatabase();
+        //sqlDB = DBHelper.getWritableDatabase();
         return this;
     }
-
-
 
     //close the database
     public void close() {
@@ -117,17 +114,18 @@ public class myMediCareDB {
     }
 
     //add new row and contact to database
-    public void insertUser(User user) {
+    public void insertCalculation(Calculation calc) {
 
         //populate rows with username and password
-        ContentValues initialValues = new ContentValues();
+        ContentValues newCalc = new ContentValues();
 
-        initialValues.put(COLUMN_EMAIL, user.getEmail());
-        initialValues.put(COLUMN_NAME, user.getName());
-        initialValues.put(COLUMN_PASSWORD, user.getPassword());
-        initialValues.put(COLUMN_GP_NUMBER, user.getGpNumber());
 
-        db.insert(USER_TABLE, null, initialValues);
+        newCalc.put(COLUMN_TEMPERATURE, calc.getTemperatureReading());
+        newCalc.put(COLUMN_LBP, calc.getlBPReading());
+        newCalc.put(COLUMN_HBP, calc.gethBPREADING());
+        newCalc.put(COLUMN_HEARTRATE, calc.getHeartRateReading());
+
+        db.insert(MEASUREMENTS_TABLE, null, newCalc);
     }
 
     public  void deleteByID(int row) {
@@ -189,6 +187,7 @@ public class myMediCareDB {
     }
 
 
+
     public Cursor getAccount(int i) throws SQLException {
         //query database for current row for datca
         Cursor mCursor = db.query(true, USER_TABLE, new String[]
@@ -202,6 +201,25 @@ public class myMediCareDB {
         return mCursor;
     }
 
+    //add new row and contact to database
+    public void insertUser(User user) {
+
+        //populate rows with username and password
+        ContentValues initialValues = new ContentValues();
+
+        initialValues.put(COLUMN_EMAIL, user.getEmail());
+        initialValues.put(COLUMN_NAME, user.getName());
+        initialValues.put(COLUMN_PASSWORD, user.getPassword());
+        initialValues.put(COLUMN_GP_NUMBER, user.getGpNumber());
+
+        db.insert(USER_TABLE, null, initialValues);
+    }
+
+
+    /**************************************************************************************************************************
+    ***************************************************************************************************************************
+    ***************************************************************************************************************************
+    ***************************************************************************************************************************/
     public ArrayList<Cursor> getData(String Query){
         //get writable database
 
@@ -216,7 +234,7 @@ public class myMediCareDB {
         try{
             String maxQuery = Query ;
             //execute the query results will be save in Cursor c
-            Cursor c = sqlDB.rawQuery(maxQuery, null);
+            Cursor c = db.rawQuery(maxQuery, null);
 
             //add value to cursor2
             Cursor2.addRow(new Object[] { "Success" });
@@ -245,6 +263,11 @@ public class myMediCareDB {
             return alc;
         }
     }
+
+    /**************************************************************************************************************************
+     ***************************************************************************************************************************
+     ***************************************************************************************************************************
+     ***************************************************************************************************************************/
 
 }
 //name 1, pass 2, username 3, email 4, number 5

@@ -48,7 +48,7 @@ public class Settings extends AppCompatActivity {
                 switch(checkedId)
                 {
                     case R.id.radio_textsize_small:
-
+                        LoginScreen.class.getResource("tv");
 
                     break;
 
@@ -140,5 +140,12 @@ public class Settings extends AppCompatActivity {
             }
         });
 
+        Button home = (Button) findViewById(R.id.back_to_main);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Settings.this,NavDrawer.class));
+            }
+        });
     }
 }
