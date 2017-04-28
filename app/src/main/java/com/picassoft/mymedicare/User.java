@@ -6,8 +6,19 @@ package com.picassoft.mymedicare;
 
 public class User {
 
+    String email;
+    String name;
+    String password;
+    String gpNumber;
+    String colour;
 
-    String email,name,password, gpNumber;
+    public String getColour() {
+        return colour;
+    }
+
+    public void setColour(String colour) {
+        this.colour = colour;
+    }
 
     public String getGpNumber() {
         return gpNumber;

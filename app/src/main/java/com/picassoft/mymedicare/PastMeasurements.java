@@ -5,14 +5,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import static com.picassoft.mymedicare.R.color.background_material_light;
 
 
 public class PastMeasurements extends AppCompatActivity {
@@ -29,6 +33,17 @@ public class PastMeasurements extends AppCompatActivity {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(PastMeasurements.this);
         int h = 0;
         int userPosition = preferences.getInt("positionCount", h);
+
+        db.open();
+        Cursor cursor = db.findColour(userPosition);
+        db.close();
+
+        String colour;
+
+        colour = cursor.getString(0);
+
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.activity_past_measurements);
+        relativeLayout.setBackgroundColor(Color.parseColor(colour));
 
         final TextView pastMeasure = (TextView) findViewById(R.id.current_measurement_view);
 

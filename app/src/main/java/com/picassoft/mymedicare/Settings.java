@@ -4,15 +4,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +25,7 @@ public class Settings extends AppCompatActivity {
 
     myMediCareDB db;
     SharedPreferences preferences;
-
+    String colour;
     static int userPosition;
 
     RadioGroup radioGroup;
@@ -48,18 +51,15 @@ public class Settings extends AppCompatActivity {
                 switch(checkedId)
                 {
                     case R.id.radio_colour_blue:
-                        LoginScreen.class.getResource("tv");
-
+                        colour = "#b7d4ff";
                     break;
 
                     case R.id.radio_colour_normal:
-
-
+                        colour = "#DCF5F5F5";
                     break;
 
                     case R.id.radio_colour_pink:
-
-
+                        colour = "#ffaaf9";
                     break;
                 }
             }
@@ -95,13 +95,22 @@ public class Settings extends AppCompatActivity {
                 db.open();
 
                 Cursor c = db.getAccount(userPosition);
-                db.updateDB(c.getString(1), c.getString(3), c.getString(2), newGPNumStr, userPosition); //132
+                db.updateDB(c.getString(1), c.getString(3), c.getString(2), newGPNumStr, userPosition, colour ); //132
 
                 Cursor num = db.getAccount(userPosition);
                 currentNum.setText(String.valueOf(num.getString(4)));
 
                 db.close();
 
+               // View pastcalcView = LayoutInflater.from(getApplication()).inflate(R.id.activity_past_measurements, null);
+
+                RelativeLayout settings = (RelativeLayout) findViewById(R.id.activity_settings);
+                //RelativeLayout mainmenu = (RelativeLayout) findViewById(R.id.content_nav_drawer);
+                //RelativeLayout pastCalc = (RelativeLayout) findViewById(R.id.activity_past_measurements);
+
+                settings.setBackgroundColor(Color.parseColor(colour));
+                //mainmenu.setBackgroundColor(Color.parseColor(colour));
+               // pastcalcView.setBackgroundColor(Color.parseColor(colour));
 //                currentNum.setText(String.valueOf(c.getString(4)));
 
                 //refresh activity to show updated number

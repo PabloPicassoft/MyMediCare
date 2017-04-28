@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static com.picassoft.mymedicare.R.color.background_material_light;
+
 
 public class myMediCareDB {
     //variables for all columns in database
@@ -58,7 +60,7 @@ public class myMediCareDB {
             + COLUMN_PASSWORD + " text not null, "
             + COLUMN_NAME + " text not null, "
             + COLUMN_COLOURSCHEME + " text not null, "
-            + COLUMN_GP_NUMBER + ");";
+            + COLUMN_GP_NUMBER + " text not null);";
 
     private static final String CREATE_MEASUREMENTS_TABLE = "create table "+ MEASUREMENTS_TABLE + "("
             + COLUMN_MEASUREMENTID + " integer primary key autoincrement, "
@@ -159,7 +161,7 @@ public class myMediCareDB {
         Log.d(TAG, String.valueOf(result));
     }
 
-    public void updateDB(String email, String name, String pass, String gpNumber, int row) {
+    public void updateDB(String email, String name, String pass, String gpNumber, int row, String colourSheme) {
 
         ContentValues updatedValues = new ContentValues();
 
@@ -167,6 +169,7 @@ public class myMediCareDB {
         updatedValues.put(COLUMN_NAME, name);
         updatedValues.put(COLUMN_PASSWORD, pass);
         updatedValues.put(COLUMN_GP_NUMBER, gpNumber);
+        updatedValues.put(COLUMN_COLOURSCHEME, colourSheme);
 
         db.update(USER_TABLE, updatedValues, COLUMN_USERID + " = " + row , null);
     }
@@ -237,10 +240,22 @@ public class myMediCareDB {
         initialValues.put(COLUMN_NAME, user.getName());
         initialValues.put(COLUMN_PASSWORD, user.getPassword());
         initialValues.put(COLUMN_GP_NUMBER, user.getGpNumber());
+        initialValues.put(COLUMN_COLOURSCHEME, "#DCF5F5F5");
 
         db.insert(USER_TABLE, null, initialValues);
     }
+    //
 
+    public Cursor findColour(int rowValue){
+
+        String query = "select " + COLUMN_COLOURSCHEME + " from " + USER_TABLE + " where " + COLUMN_USERID + " = " + rowValue;
+
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor != null){
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
 
     /**************************************************************************************************************************
     ***************************************************************************************************************************
