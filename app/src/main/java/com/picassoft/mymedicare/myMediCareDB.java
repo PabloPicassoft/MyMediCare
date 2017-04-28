@@ -32,7 +32,7 @@ public class myMediCareDB {
     public static final String COLUMN_NAME = "name";
     //public static final String COLUMN_GPNAME = "gpname";
     public static final String COLUMN_GP_NUMBER = "gpnumber";
-    //public static final String COLUMN_COLOURSCHEME = "colourScheme";
+    public static final String COLUMN_COLOURSCHEME = "colourScheme";
     //public static final String COLUMN_TEXTSIZE = "textSize";
 
     private static final String MEASUREMENTS_TABLE = "measurements";
@@ -57,6 +57,7 @@ public class myMediCareDB {
             + COLUMN_EMAIL + " text not null, "
             + COLUMN_PASSWORD + " text not null, "
             + COLUMN_NAME + " text not null, "
+            + COLUMN_COLOURSCHEME + " text not null, "
             + COLUMN_GP_NUMBER + ");";
 
     private static final String CREATE_MEASUREMENTS_TABLE = "create table "+ MEASUREMENTS_TABLE + "("
@@ -151,8 +152,6 @@ public class myMediCareDB {
         //return the cursor
         return mCursor;
     }
-
-
 
     public  void deleteByID(int row) {
         long result = db.delete(USER_TABLE, COLUMN_USERID + " = " + row, null);
@@ -291,10 +290,31 @@ public class myMediCareDB {
         }
     }
 
-    /**************************************************************************************************************************
-     ***************************************************************************************************************************
-     ***************************************************************************************************************************
-     ***************************************************************************************************************************/
+    /*
+                          MEOW
 
+                       .               ,.
+                  T."-._..---.._,-"/|
+                  l|"-.  _.v._   (" |
+                  [l /.'_ \; _~"-.`-t
+                  Y " _(o} _{o)._ ^.|
+                  j  T  ,-<v>-.  T  ]
+                  \  l ( /-^-\ ) !  !
+                   \. \.  "~"  ./  /c-..,__
+                     ^r- .._ .- .-"  `- .  ~"--.
+                      > \.                      \
+                      ]   ^.                     \
+                      3  .  ">            .       Y
+         ,.__.--._   _j   \ ~   .         ;       |
+        (    ~"-._~"^._\   ^.    ^._      I     . l
+         "-._ ___ ~"-,_7    .Z-._   7"   Y      ;  \        _
+            /"   "~-(r r  _/_--._~-/    /      /,.--^-._   / Y
+            "-._    '"~~~>-._~]>--^---./____,.^~        ^.^  !
+                ~--._    '   Y---.                        \./
+                     ~~--._  l_   )                        \
+                           ~-._~~~---._,____..---           \
+                               ~----"~       \
+                                              \
+
+    */
 }
-//name 1, pass 2, username 3, email 4, number 5

@@ -59,6 +59,9 @@ public class CalculateRisk extends AppCompatActivity {
 
         ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.SEND_SMS},1);
 
+        final TextView HRMeasureText = (TextView) findViewById(R.id.result_label);
+        HRMeasureText.setVisibility(View.INVISIBLE);
+
         //create variable for results button
         Button results = (Button) findViewById(R.id.button_calculate);
         results.setOnClickListener(new View.OnClickListener() {
@@ -169,6 +172,7 @@ public class CalculateRisk extends AppCompatActivity {
 
 
 //                  String outputRisk = getString(highRiskCount);
+                    HRMeasureText.setVisibility(View.VISIBLE);
                     TextView output = (TextView) findViewById(R.id.output_riskyness);
                     output.setText(String.valueOf(highRiskCount));
 

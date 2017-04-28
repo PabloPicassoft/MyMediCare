@@ -10,15 +10,113 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.picassoft.mymedicare.PastMeasurements">
 
-    <TextView
-        android:text="test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="29dp"
-        android:id="@+id/test"
-        android:textSize="28sp"
-        android:textStyle="normal|bold" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:text="Past Measurements"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:id="@+id/pastTitle"
+                android:textAlignment="center"
+                tools:gravity="center"
+                android:gravity="center"
+                android:textStyle="normal|bold"
+                android:textSize="28sp"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginTop="10dp"
+                android:layout_alignTop="@+id/textInputLayout"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="20dp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="0.05">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="302dp"
+                    android:layout_alignParentTop="true"
+                    android:weightSum="1">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="236dp">
+
+                        <TextView
+                            android:text="Measurement:"
+                            android:layout_width="wrap_content"
+                            android:id="@+id/measurement_label"
+                            android:textSize="17sp"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textStyle="normal|bold"
+                            android:textAlignment="viewStart"
+                            android:layout_height="38dp"
+                            android:layout_weight="0.06" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:id="@+id/current_measurement_view"
+                            android:layout_weight="1.00"
+                            android:textStyle="normal|bold"
+                            android:paddingLeft="15dp"
+                            android:textSize="17sp"
+                            android:layout_marginLeft="10dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <Button
+                            android:text="Previous"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/prev_record"
+                            android:layout_weight="1"
+                            android:layout_marginRight="10dp" />
+
+                        <Button
+                            android:text="Next"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/next_record"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="10dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:text="Home"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/pastcalcBackToHome"
+                        android:layout_gravity="center_horizontal"
+                        android:paddingLeft="50dp"
+                        android:paddingRight="50dp" />
+                </LinearLayout>
+
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

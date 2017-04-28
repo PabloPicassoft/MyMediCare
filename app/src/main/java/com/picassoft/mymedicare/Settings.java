@@ -47,17 +47,17 @@ public class Settings extends AppCompatActivity {
                 Log.d(TAG,  "Clicked = " + checkedId);
                 switch(checkedId)
                 {
-                    case R.id.radio_textsize_small:
+                    case R.id.radio_colour_blue:
                         LoginScreen.class.getResource("tv");
 
                     break;
 
-                    case R.id.radio_textsize_medium:
+                    case R.id.radio_colour_normal:
 
 
                     break;
 
-                    case R.id.radio_textsize_Large:
+                    case R.id.radio_colour_pink:
 
 
                     break;

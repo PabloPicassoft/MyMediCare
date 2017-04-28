@@ -3,6 +3,7 @@
     package="com.picassoft.mymedicare">
 
     <uses-permission-sdk-23 android:name="android.permission.SEND_SMS"/>
+    <uses-feature android:name="android.hardware.screen.portrait" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".Splashscreen">
+        <activity android:name=".Splashscreen"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -20,29 +22,35 @@
 
         <activity
             android:name=".CreateAccount"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".NavDrawer"
             android:label="@string/title_activity_nav_drawer"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".LoginScreen"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".CalculateRisk" />
+        <activity android:name=".CalculateRisk"
+            android:screenOrientation="portrait"/>
 
         <activity android:name=".AndroidDatabaseManager"
             android:label="@string/app_name"/>
 
         <activity
             android:name=".Settings"
-            android:label="@string/title_activity_settings" />
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".PastMeasurements"
-            android:label="Past Measurements" />
+            android:label="Past Measurements"
+            android:screenOrientation="portrait"/>
 
     </application>
 

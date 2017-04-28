@@ -9,6 +9,8 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,19 +30,57 @@ public class PastMeasurements extends AppCompatActivity {
         int h = 0;
         int userPosition = preferences.getInt("positionCount", h);
 
+        final TextView pastMeasure = (TextView) findViewById(R.id.current_measurement_view);
+
         try {
             db.open();
-            Cursor calCursor = db.getCalculation(userPosition);
+                final Cursor calCursor = db.getCalculation(userPosition);
             db.close();
 
             //Toast.makeText(getBaseContext(), userPosition, Toast.LENGTH_LONG).show();
-            TextView test = (TextView) findViewById(R.id.test);
-            test.setText("Measurement: " + calCursor.getString(0) + " \nUser: " + calCursor.getString(1) +
+
+            pastMeasure.setText("Measurement: " + calCursor.getString(0) + " \nUser: " + calCursor.getString(1) +
                     " \nDate: " + calCursor.getString(2) + " \n\nTEMP: " + calCursor.getString(3) +
                     " \nLBP: " + calCursor.getString(4) + " \nHBP: " + calCursor.getString(5) +
                     " \nHEARTRATE: " + calCursor.getString(6));
 
-        }catch (CursorIndexOutOfBoundsException noPastCalc) {
+            Button next = (Button) findViewById(R.id.next_record);
+            next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (calCursor.isLast()){
+                        calCursor.moveToFirst();
+                        dispRecord(calCursor);
+                    } else {
+                        calCursor.moveToNext();
+                        dispRecord(calCursor);
+                    }
+                }
+            });
+
+            Button prev = (Button) findViewById(R.id.prev_record);
+            prev.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (calCursor.isFirst()){
+                        calCursor.moveToLast();
+                        dispRecord(calCursor);
+                    } else {
+                        calCursor.moveToPrevious();
+                        dispRecord(calCursor);
+                    }
+                }
+            });
+
+            Button home = (Button) findViewById(R.id.pastcalcBackToHome);
+            home.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(PastMeasurements.this, NavDrawer.class));
+                }
+            });
+
+        } catch (CursorIndexOutOfBoundsException noPastCalc) {
 
             final AlertDialog.Builder noCalcsFoundDialog  = new AlertDialog.Builder(PastMeasurements.this);
             noCalcsFoundDialog.setMessage("There are no past calculations to view. \n\nClick \"Calculate Risk\" in the side navigation or the main menu to calculate your risk.");
@@ -53,6 +93,13 @@ public class PastMeasurements extends AppCompatActivity {
             noCalcsFoundDialog.setCancelable(false);
             noCalcsFoundDialog.create().show();
         }
+    }
 
+    public void dispRecord(Cursor calCursor) {
+        TextView pastMeasure = (TextView) findViewById(R.id.current_measurement_view);
+        pastMeasure.setText("Measurement: " + calCursor.getString(0) + " \nUser: " + calCursor.getString(1) +
+                " \nDate: " + calCursor.getString(2) + " \n\nTEMP: " + calCursor.getString(3) +
+                " \nLBP: " + calCursor.getString(4) + " \nHBP: " + calCursor.getString(5) +
+                " \nHEARTRATE: " + calCursor.getString(6));
     }
 }
