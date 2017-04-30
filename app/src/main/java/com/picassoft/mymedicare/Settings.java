@@ -25,7 +25,7 @@ public class Settings extends AppCompatActivity {
 
     myMediCareDB db;
     SharedPreferences preferences;
-    String colour;
+    String colour = "RED";
     static int userPosition;
 
     RadioGroup radioGroup;
@@ -93,14 +93,14 @@ public class Settings extends AppCompatActivity {
                 userPosition = preferences.getInt("positionCount", h);
 
                 db.open();
-
-                Cursor c = db.getAccount(userPosition);
-                db.updateDB(c.getString(1), c.getString(3), c.getString(2), newGPNumStr, userPosition, colour ); //132
-
                 Cursor num = db.getAccount(userPosition);
-                currentNum.setText(String.valueOf(num.getString(4)));
+                currentNum.setText(newGPNumStr);
+
+                //Cursor c = db.getAccount(userPosition);
+                db.updateDB(num.getString(1), num.getString(3), num.getString(2), newGPNumStr, userPosition, colour); //132
 
                 db.close();
+
 
                // View pastcalcView = LayoutInflater.from(getApplication()).inflate(R.id.activity_past_measurements, null);
 

@@ -39,7 +39,6 @@ public class PastMeasurements extends AppCompatActivity {
         db.close();
 
         String colour;
-
         colour = cursor.getString(0);
 
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.activity_past_measurements);

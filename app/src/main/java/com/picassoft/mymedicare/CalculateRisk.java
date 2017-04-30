@@ -5,8 +5,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.os.ParcelableCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +51,20 @@ public class CalculateRisk extends AppCompatActivity {
         db = new myMediCareDB(getBaseContext());
 
         setContentView(R.layout.activity_calculate_risk);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculateRisk.this);
+        int h = 0;
+        int userPosition = preferences.getInt("positionCount", h);
+
+        db.open();
+        Cursor cursor = db.findColour(userPosition);
+        db.close();
+
+        String colour;
+        colour = cursor.getString(0);
+
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.activity_calculate_risk);
+        relativeLayout.setBackgroundColor(Color.parseColor(colour));
 
         Spinner tempDropdown = (Spinner) findViewById(R.id.spinner_temp_format);
         //String array to hold different temperature formats
