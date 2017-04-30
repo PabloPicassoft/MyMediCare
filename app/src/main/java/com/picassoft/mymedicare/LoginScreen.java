@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.database.CursorIndexOutOfBoundsException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View.OnClickListener;
@@ -48,11 +49,19 @@ public class LoginScreen extends AppCompatActivity {
                     EditText uPass = (EditText) findViewById(R.id.login_password);
                     String enteredPass = uPass.getText().toString();
 
+
                     //
                     try {
                         db.open();
                         String password = db.loginAuth(enteredEmail);
                         db.close();
+
+                        if(TextUtils.isEmpty(enteredEmail)) {
+                            uEmail.setError("Required Field");
+                        }
+                        if(TextUtils.isEmpty(enteredPass)) {
+                            uPass.setError("Required Field");
+                        }
 
                         if (enteredPass.equals(password)){
                             
@@ -62,8 +71,7 @@ public class LoginScreen extends AppCompatActivity {
                             Intent loginClick = new Intent(LoginScreen.this, NavDrawer.class);
                             startActivity(loginClick);
                         } else {
-                            Toast loginFailed = Toast.makeText(LoginScreen.this, "Email and Password Do Not Match!", Toast.LENGTH_SHORT);
-                            loginFailed.show();
+                            Toast.makeText(LoginScreen.this, "Email and Password Do Not Match!", Toast.LENGTH_SHORT).show();
                         }
 
                         // if there are no accounts in the database, the cursor index will be out of bounds (0) therefore throwing an exception.

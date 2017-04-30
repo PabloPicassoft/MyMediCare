@@ -2,6 +2,7 @@ package com.picassoft.mymedicare;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View.OnClickListener;
@@ -13,7 +14,9 @@ import android.widget.Toast;
 
 public class CreateAccount extends AppCompatActivity implements OnClickListener {
 
+    int errorCount;
     myMediCareDB db;
+    boolean loginnable = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,8 @@ public class CreateAccount extends AppCompatActivity implements OnClickListener 
             @Override
             public void onClick(View v) {
                 if (v.getId() == R.id.btn_signup) {
+                    errorCount = 0;
+
                     EditText name = (EditText) findViewById(R.id.signup_name);
                     EditText email = (EditText) findViewById(R.id.signup_email);
                     EditText pass1 = (EditText) findViewById(R.id.signup_password1);
@@ -53,11 +58,35 @@ public class CreateAccount extends AppCompatActivity implements OnClickListener 
                     String passConfStr = passConf.getText().toString();
                     String gpNumStr = gpNum.getText().toString();
 
+                    if (TextUtils.isEmpty(nameStr)) {
+                        name.setError("Enter your Name");
+                        errorCount++;
+                    }
+                    if (TextUtils.isEmpty(emailStr)) {
+                        email.setError("Enter your Email");
+                        errorCount++;
+                    }
+                    if (TextUtils.isEmpty(pass1Str)){
+                        pass1.setError("Enter your Password");
+                        errorCount++;
+                    }
+                    if (TextUtils.isEmpty(passConfStr)) {
+                        passConf.setError("Repeat your Password");
+                        errorCount++;
+                    }
+                    if (TextUtils.isEmpty(gpNumStr)) {
+                        gpNum.setError("Enter your GPs number");
+                        errorCount++;
+                    }
+
                     if (!pass1Str.equals(passConfStr)) {
+                        pass1.setError("Passwords do not Match");
+                        passConf.setError("Passwords do not Match");
                         Toast passFailed = Toast.makeText(CreateAccount.this, "Passwords Don't Match!", Toast.LENGTH_SHORT);
                         passFailed.show();
-                    } else {
+                    }
 
+                    if((pass1Str.equals(passConfStr)) && errorCount == 0){
                         //Toast checkNumber = Toast.makeText(CreateAccount.this, "number: " + gpNumStr, Toast.LENGTH_SHORT);
                         //checkNumber.show();
 
@@ -78,6 +107,8 @@ public class CreateAccount extends AppCompatActivity implements OnClickListener 
 
                         Intent signUpClick = new Intent(CreateAccount.this, LoginScreen.class);
                         startActivity(signUpClick);
+                    } else {
+                        Toast.makeText(CreateAccount.this, errorCount + " Empty Fields", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
