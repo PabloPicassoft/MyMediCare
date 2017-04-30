@@ -9,24 +9,26 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Set;
-
 public class Settings extends AppCompatActivity {
 
     myMediCareDB db;
     SharedPreferences preferences;
-    String colour = "RED";
+    String colour;
     static int userPosition;
+
+    boolean colourSelected = false;
+    boolean checkboxon = false;
+   // boolean checkboxOnAndHasText = false;
 
     RadioGroup radioGroup;
     private static final String TAG = "Settings";
@@ -43,6 +45,15 @@ public class Settings extends AppCompatActivity {
         int h = 0;
         userPosition = preferences.getInt("positionCount", h);
 
+        db.open();
+        Cursor cursor = db.findColour(userPosition);
+        db.close();
+
+        String initialColour = cursor.getString(0);
+
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.activity_settings);
+        relativeLayout.setBackgroundColor(Color.parseColor(initialColour));
+
         radioGroup = (RadioGroup) findViewById(R.id.radiogroup_text_size);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -52,14 +63,17 @@ public class Settings extends AppCompatActivity {
                 {
                     case R.id.radio_colour_blue:
                         colour = "#b7d4ff";
+                        colourSelected = true;
                     break;
 
                     case R.id.radio_colour_normal:
                         colour = "#DCF5F5F5";
+                        colourSelected = true;
                     break;
 
                     case R.id.radio_colour_pink:
                         colour = "#ffaaf9";
+                        colourSelected = true;
                     break;
                 }
             }
@@ -78,6 +92,24 @@ public class Settings extends AppCompatActivity {
             Toast.makeText(Settings.this, "NO NUMBER TO DISPLAY", Toast.LENGTH_LONG).show();
         }
 
+        final CheckBox updateNumber = (CheckBox) findViewById(R.id.checkBox_updategpnum);
+
+        final EditText newGPNumber = (EditText) findViewById(R.id.input_gp_number);
+        newGPNumber.setEnabled(false);
+
+        updateNumber.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (updateNumber.isChecked()){
+                    Toast.makeText(Settings.this, "CHECKBOX CLICKED", Toast.LENGTH_SHORT).show();
+                    newGPNumber.setEnabled(true);
+                    checkboxon = true;
+                } else {
+                    //newGPNumber.setKeyListener(null);
+                    newGPNumber.setEnabled(false);
+                }
+            }
+        });
 
 
         Button updateSettings = (Button) findViewById(R.id.button_update_settings);
@@ -85,30 +117,53 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                EditText newGPNumber = (EditText) findViewById(R.id.input_gp_number);
-                String newGPNumStr = newGPNumber.getText().toString();
-
                 preferences = PreferenceManager.getDefaultSharedPreferences(Settings.this);
                 int h = 0;
                 userPosition = preferences.getInt("positionCount", h);
+                //get users new number
+                String newGPNumStr = newGPNumber.getText().toString();
 
-                db.open();
-                Cursor num = db.getAccount(userPosition);
-                currentNum.setText(newGPNumStr);
+                if ((colourSelected) && (checkboxon && !newGPNumStr.equals(null))) {
 
-                //Cursor c = db.getAccount(userPosition);
-                db.updateDB(num.getString(1), num.getString(3), num.getString(2), newGPNumStr, userPosition, colour); //132
+                    db.open();
+                    Cursor num = db.getAccount(userPosition);
+                    db.updateDB(num.getString(1), num.getString(3), num.getString(2), newGPNumStr, userPosition, colour); //132
+                    db.close();
 
-                db.close();
+                    currentNum.setText(newGPNumStr);
+
+                    RelativeLayout settings = (RelativeLayout) findViewById(R.id.activity_settings);
+                    settings.setBackgroundColor(Color.parseColor(colour));
+
+                    Toast.makeText(Settings.this, "Colour Scheme and Number Changed", Toast.LENGTH_SHORT).show();
+                } else if (colourSelected && !checkboxon) {
+                    db.open();
+                    Cursor colourOnly = db.getAccount(userPosition);
+                    //currentNum.setText(newGPNumStr);
+                    db.updateDB(colourOnly.getString(1), colourOnly.getString(3), colourOnly.getString(2), colourOnly.getString(4), userPosition, colour); //132
+                    db.close();
+
+                    RelativeLayout settings = (RelativeLayout) findViewById(R.id.activity_settings);
+                    settings.setBackgroundColor(Color.parseColor(colour));
+
+                    Toast.makeText(Settings.this, "Colour Scheme Changed", Toast.LENGTH_SHORT).show();
+                } else if (checkboxon && !newGPNumStr.equals(null)) {
+                    db.open();
+                    Cursor numberOnly = db.getAccount(userPosition);
+                    currentNum.setText(newGPNumStr);
+                    db.updateDB(numberOnly.getString(1), numberOnly.getString(3), numberOnly.getString(2), newGPNumStr, userPosition, numberOnly.getString(5)); //132
+                    db.close();
+
+                    Toast.makeText(Settings.this, "New GP Number Set", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(Settings.this, "No Settings to Update", Toast.LENGTH_SHORT).show();
+                }
 
 
                // View pastcalcView = LayoutInflater.from(getApplication()).inflate(R.id.activity_past_measurements, null);
 
-                RelativeLayout settings = (RelativeLayout) findViewById(R.id.activity_settings);
                 //RelativeLayout mainmenu = (RelativeLayout) findViewById(R.id.content_nav_drawer);
                 //RelativeLayout pastCalc = (RelativeLayout) findViewById(R.id.activity_past_measurements);
-
-                settings.setBackgroundColor(Color.parseColor(colour));
                 //mainmenu.setBackgroundColor(Color.parseColor(colour));
                // pastcalcView.setBackgroundColor(Color.parseColor(colour));
 //                currentNum.setText(String.valueOf(c.getString(4)));

@@ -60,8 +60,7 @@ public class CalculateRisk extends AppCompatActivity {
         Cursor cursor = db.findColour(userPosition);
         db.close();
 
-        String colour;
-        colour = cursor.getString(0);
+        String colour = cursor.getString(0);
 
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.activity_calculate_risk);
         relativeLayout.setBackgroundColor(Color.parseColor(colour));
@@ -77,7 +76,7 @@ public class CalculateRisk extends AppCompatActivity {
         ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.SEND_SMS},1);
 
         final TextView HRMeasureText = (TextView) findViewById(R.id.result_label);
-        HRMeasureText.setVisibility(View.INVISIBLE);
+        //HRMeasureText.setVisibility(View.INVISIBLE);
 
         //create variable for results button
         Button results = (Button) findViewById(R.id.button_calculate);

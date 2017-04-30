@@ -1,7 +1,11 @@
 package com.picassoft.mymedicare;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -14,18 +18,39 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+
 public class NavDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    myMediCareDB db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_drawer);
+
+        db = new myMediCareDB(getBaseContext());
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(NavDrawer.this);
+        int h = 0;
+        int userPosition = preferences.getInt("positionCount", h);
+
+        db.open();
+        Cursor cursor = db.findColour(userPosition);
+        db.close();
+
+        String colour = cursor.getString(0);
+
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.content_nav_drawer);
+        relativeLayout.setBackgroundColor(Color.parseColor(colour));
 
         TextView tv =(TextView)findViewById(R.id.main_menu_text);
 

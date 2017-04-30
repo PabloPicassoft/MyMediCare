@@ -220,7 +220,7 @@ public class myMediCareDB {
     public Cursor getAccount(int i) throws SQLException {
         //query database for current row for datca
         Cursor mCursor = db.query(true, USER_TABLE, new String[]
-                        {COLUMN_USERID, COLUMN_EMAIL, COLUMN_PASSWORD, COLUMN_NAME, COLUMN_GP_NUMBER}, COLUMN_USERID + " like " + i , null,
+                        {COLUMN_USERID, COLUMN_EMAIL, COLUMN_PASSWORD, COLUMN_NAME, COLUMN_GP_NUMBER, COLUMN_COLOURSCHEME}, COLUMN_USERID + " like " + i , null,
                 null, null, null, null);
         //if cursor exists, go to the first point in database
         if (mCursor != null) {

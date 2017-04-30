@@ -100,7 +100,7 @@
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/checkBox" />
+                        android:id="@+id/checkBox_updategpnum" />
 
                     <TextView
                         android:text="Tick to Enable"
@@ -233,6 +233,8 @@
                 android:layout_marginBottom="8dp"
                 android:paddingBottom="10dp">
 
+
+
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
@@ -249,14 +251,6 @@
                         android:layout_marginRight="10dp" />
 
                     <Button
-                        android:text="Home"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/back_to_main"
-                        android:layout_weight="1.00"
-                        android:layout_marginTop="10dp" />
-
-                    <Button
                         android:text="Update Settings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -265,6 +259,14 @@
                         android:layout_marginLeft="10dp" />
 
                 </LinearLayout>
+
+                <Button
+                    android:text="Home"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/back_to_main"
+                    android:layout_weight="1"
+                    android:layout_marginTop="10dp" />
 
             </android.support.design.widget.TextInputLayout>
 

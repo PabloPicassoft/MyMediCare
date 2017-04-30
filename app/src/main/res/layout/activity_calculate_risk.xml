@@ -195,7 +195,9 @@
                     android:layout_weight="1.00"
                     android:textAlignment="textStart"
                     android:paddingLeft="10dp"
-                    android:textColor="@android:color/holo_red_dark" />
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textStyle="normal|bold"
+                    android:textSize="17sp" />
 
             </LinearLayout>
 
