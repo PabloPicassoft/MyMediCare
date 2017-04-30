@@ -1,26 +1,29 @@
 package com.picassoft.mymedicare;
 
-/**
- * Created by Paul on 27/04/2017.
- */
-
 public class Calculation {
 
-    int foreignUserID;
-    String lBPReading;
-    String hBPReading;
-    String temperatureReading;
-    String heartRateReading;
+    private int foreignUserID;
+    private String lBPReading;
+    private String hBPReading;
+    private String temperatureReading;
+    private String heartRateReading;
+    private String date;
+    private String time;
+    private String verdictTemp;
+    private String verdictHBP;
+    private String verdictLBP;
+    private String verdictHR;
 
-    public String getDateAndTime() {
-        return dateAndTime;
+
+    public String getDate() {
+        return date;
     }
 
-    public void setDateAndTime(String dateAndTime) {
-        this.dateAndTime = dateAndTime;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    String dateAndTime;
+
 
     public int getForeignUserID() {
         return foreignUserID;
@@ -72,7 +75,7 @@ public class Calculation {
         this.verdictHR = verdictHR;
     }
 
-    String verdictTemp, verdictHBP, verdictLBP, verdictHR;
+
 
 
 
@@ -101,4 +104,11 @@ public class Calculation {
     }
 
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 }

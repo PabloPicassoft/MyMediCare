@@ -34,6 +34,8 @@ public class NavDrawer extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_drawer);
 
+
+
         db = new myMediCareDB(getBaseContext());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -44,10 +46,16 @@ public class NavDrawer extends AppCompatActivity
         int userPosition = preferences.getInt("positionCount", h);
 
         db.open();
-        Cursor cursor = db.findColour(userPosition);
+        Cursor cursor = db.getAccount(userPosition);
         db.close();
 
-        String colour = cursor.getString(0);
+//        TextView name = (TextView) findViewById();
+//        name.setText("TEST");
+//
+//        TextView email = (TextView) findViewById(R.id.nav_header_email);
+//        email.setText("ING");
+
+        String colour = cursor.getString(5);
 
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.content_nav_drawer);
         relativeLayout.setBackgroundColor(Color.parseColor(colour));
@@ -124,7 +132,6 @@ public class NavDrawer extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.nav_drawer, menu);
         return true;
     }

@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -41,6 +42,8 @@ public class Settings extends AppCompatActivity {
 
         setContentView(R.layout.activity_settings);
 
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
         preferences = PreferenceManager.getDefaultSharedPreferences(Settings.this);
         int h = 0;
         userPosition = preferences.getInt("positionCount", h);
@@ -59,6 +62,7 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 Log.d(TAG,  "Clicked = " + checkedId);
+
                 switch(checkedId)
                 {
                     case R.id.radio_colour_blue:
@@ -81,13 +85,13 @@ public class Settings extends AppCompatActivity {
 
         final TextView currentNum = (TextView) findViewById(R.id.current_num_view);
 
-        try{
+        try {
             db.open();
             Cursor num = db.getAccount(userPosition);
             currentNum.setText(String.valueOf(num.getString(4)));
             db.close();
 
-            Toast.makeText(Settings.this, String.valueOf(num.getString(4)), Toast.LENGTH_LONG).show();
+            //Toast.makeText(Settings.this, String.valueOf(num.getString(4)), Toast.LENGTH_LONG).show();
         } catch (CursorIndexOutOfBoundsException c) {
             Toast.makeText(Settings.this, "NO NUMBER TO DISPLAY", Toast.LENGTH_LONG).show();
         }
@@ -120,7 +124,7 @@ public class Settings extends AppCompatActivity {
                 preferences = PreferenceManager.getDefaultSharedPreferences(Settings.this);
                 int h = 0;
                 userPosition = preferences.getInt("positionCount", h);
-                //get users new number
+
                 String newGPNumStr = newGPNumber.getText().toString();
 
                 if ((colourSelected) && (checkboxon && !newGPNumStr.equals(null))) {
@@ -136,10 +140,10 @@ public class Settings extends AppCompatActivity {
                     settings.setBackgroundColor(Color.parseColor(colour));
 
                     Toast.makeText(Settings.this, "Colour Scheme and Number Changed", Toast.LENGTH_SHORT).show();
+
                 } else if (colourSelected && !checkboxon) {
                     db.open();
                     Cursor colourOnly = db.getAccount(userPosition);
-                    //currentNum.setText(newGPNumStr);
                     db.updateDB(colourOnly.getString(1), colourOnly.getString(3), colourOnly.getString(2), colourOnly.getString(4), userPosition, colour); //132
                     db.close();
 
@@ -147,7 +151,9 @@ public class Settings extends AppCompatActivity {
                     settings.setBackgroundColor(Color.parseColor(colour));
 
                     Toast.makeText(Settings.this, "Colour Scheme Changed", Toast.LENGTH_SHORT).show();
-                } else if (checkboxon && !newGPNumStr.equals(null)) {
+
+                } else if (checkboxon && !newGPNumStr.isEmpty()) {
+
                     db.open();
                     Cursor numberOnly = db.getAccount(userPosition);
                     currentNum.setText(newGPNumStr);
@@ -155,23 +161,10 @@ public class Settings extends AppCompatActivity {
                     db.close();
 
                     Toast.makeText(Settings.this, "New GP Number Set", Toast.LENGTH_SHORT).show();
+
                 } else {
                     Toast.makeText(Settings.this, "No Settings to Update", Toast.LENGTH_SHORT).show();
                 }
-
-
-               // View pastcalcView = LayoutInflater.from(getApplication()).inflate(R.id.activity_past_measurements, null);
-
-                //RelativeLayout mainmenu = (RelativeLayout) findViewById(R.id.content_nav_drawer);
-                //RelativeLayout pastCalc = (RelativeLayout) findViewById(R.id.activity_past_measurements);
-                //mainmenu.setBackgroundColor(Color.parseColor(colour));
-               // pastcalcView.setBackgroundColor(Color.parseColor(colour));
-//                currentNum.setText(String.valueOf(c.getString(4)));
-
-                //refresh activity to show updated number
-                //Intent refresh = new Intent(Settings.this, Settings.class);
-                //startActivity(refresh);
-
             }
         });
 
@@ -184,17 +177,12 @@ public class Settings extends AppCompatActivity {
                 int h = 0;
                 int userPosition = preferences.getInt("positionCount", h);
 
-                Toast.makeText(Settings.this, "USER POSITION = " + userPosition ,Toast.LENGTH_SHORT).show();
                 db.open();
-
                 db.deleteByID(userPosition);
-                Toast.makeText(Settings.this, "USER POSITION = " + userPosition ,Toast.LENGTH_SHORT).show();
-
                 db.close();
 
                 Toast informDeletion = Toast.makeText(Settings.this, "Account has been deleted", Toast.LENGTH_LONG);
                 informDeletion.show();
-
 
                 Intent backToLogin = new Intent(Settings.this, LoginScreen.class);
                 startActivity(backToLogin);

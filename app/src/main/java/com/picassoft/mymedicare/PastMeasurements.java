@@ -45,18 +45,25 @@ public class PastMeasurements extends AppCompatActivity {
         relativeLayout.setBackgroundColor(Color.parseColor(colour));
 
         final TextView pastMeasure = (TextView) findViewById(R.id.current_measurement_view);
+        final TextView verdicts = (TextView) findViewById(R.id.current_verdict_view);
 
         try {
             db.open();
+                final Cursor accountCursor = db.getAccount(userPosition);
                 final Cursor calCursor = db.getCalculation(userPosition);
             db.close();
 
-            //Toast.makeText(getBaseContext(), userPosition, Toast.LENGTH_LONG).show();
 
-            pastMeasure.setText("Measurement: " + calCursor.getString(0) + " \nUser: " + calCursor.getString(1) +
-                    " \nDate: " + calCursor.getString(2) + " \n\nTEMP: " + calCursor.getString(3) +
-                    " \nLBP: " + calCursor.getString(4) + " \nHBP: " + calCursor.getString(5) +
-                    " \nHEARTRATE: " + calCursor.getString(6));
+
+            pastMeasure.setText("Measurement: " + calCursor.getString(0) + " \nUser: " + accountCursor.getString(3) +
+                    " \nDate: " + calCursor.getString(2) + " \nTime: " + calCursor.getString(3) +
+                    " \n\nTEMP: " + calCursor.getString(4) + " \nLBP: " + calCursor.getString(5) +
+                    " \nHBP: " + calCursor.getString(6) + " \nHEARTRATE: " + calCursor.getString(7));
+
+            verdicts.setText("Temperature: " + calCursor.getString(8) + " \nLBP: " + calCursor.getString(9) +
+                    " \nHBP: " + calCursor.getString(10) + " \nHeart Rate: " + calCursor.getString(11));
+
+            //Toast.makeText(getBaseContext(), userPosition, Toast.LENGTH_LONG).show();
 
             Button next = (Button) findViewById(R.id.next_record);
             next.setOnClickListener(new View.OnClickListener() {
@@ -110,10 +117,25 @@ public class PastMeasurements extends AppCompatActivity {
     }
 
     public void dispRecord(Cursor calCursor) {
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(PastMeasurements.this);
+        int h = 0;
+        int userPosition = preferences.getInt("positionCount", h);
+
+        db.open();
+        final Cursor accountCursor = db.getAccount(userPosition);
+        db.close();
+
+
         TextView pastMeasure = (TextView) findViewById(R.id.current_measurement_view);
-        pastMeasure.setText("Measurement: " + calCursor.getString(0) + " \nUser: " + calCursor.getString(1) +
-                " \nDate: " + calCursor.getString(2) + " \n\nTEMP: " + calCursor.getString(3) +
-                " \nLBP: " + calCursor.getString(4) + " \nHBP: " + calCursor.getString(5) +
-                " \nHEARTRATE: " + calCursor.getString(6));
+        TextView verdicts = (TextView) findViewById(R.id.current_verdict_view);
+
+        pastMeasure.setText("Measurement: " + calCursor.getString(0) + " \nUser: " + accountCursor.getString(3) +
+                " \nDate: " + calCursor.getString(2) + " \nTime: " + calCursor.getString(3) +
+                " \n\nTEMP: " + calCursor.getString(4) + " \nLBP: " + calCursor.getString(5) +
+                " \nHBP: " + calCursor.getString(6) + " \nHEARTRATE: " + calCursor.getString(7));
+
+        verdicts.setText("Temperature: " + calCursor.getString(8) + " \nLBP: " + calCursor.getString(9) +
+                " \nHBP: " + calCursor.getString(10) + " \nHeart Rate: " + calCursor.getString(11));
     }
 }

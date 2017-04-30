@@ -1,9 +1,5 @@
 package com.picassoft.mymedicare;
 
-/**
- * Created by Paul on 14/04/2017.
- */
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,14 +10,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import static com.picassoft.mymedicare.R.color.background_material_light;
-
 
 public class myMediCareDB {
+
     //variables for all columns in database
     private static final String TAG = "DBHelper";
 
@@ -32,7 +26,6 @@ public class myMediCareDB {
     public static final String COLUMN_EMAIL = "email";
     public static final String COLUMN_PASSWORD = "password";
     public static final String COLUMN_NAME = "name";
-    //public static final String COLUMN_GPNAME = "gpname";
     public static final String COLUMN_GP_NUMBER = "gpnumber";
     public static final String COLUMN_COLOURSCHEME = "colourScheme";
     //public static final String COLUMN_TEXTSIZE = "textSize";
@@ -41,14 +34,15 @@ public class myMediCareDB {
     public static final String COLUMN_MEASUREMENTID = "_measureid";
     public static final String COLUMN_FOREIGN_USERID = "_userid";
     public static final String COLUMN_DATE = "date";
+    public static final String COLUMN_TIME = "time";
     public static final String COLUMN_TEMPERATURE = "temperature";
-    //public static final String COLUMN_TEMPERATURE_VERDICT = "temperature_verdict";
+    public static final String COLUMN_TEMPERATURE_VERDICT = "temperature_verdict";
     public static final String COLUMN_LBP = "lbp";
-    //public static final String COLUMN_LBP_VERDICT = "lbp_verdict";
+    public static final String COLUMN_LBP_VERDICT = "lbp_verdict";
     public static final String COLUMN_HBP = "hbp";
-    //public static final String COLUMN_HBP_VERDICT = "hbp_verdict";
+    public static final String COLUMN_HBP_VERDICT = "hbp_verdict";
     public static final String COLUMN_HEARTRATE = "heartrate";
-    //public static final String COLUMN_HEARTRATE_VERDICT = "heartrate_verdict";
+    public static final String COLUMN_HEARTRATE_VERDICT = "heartrate_verdict";
 
 
     private static final int DATABASE_VERSION = 2;
@@ -66,10 +60,15 @@ public class myMediCareDB {
             + COLUMN_MEASUREMENTID + " integer primary key autoincrement, "
             + COLUMN_FOREIGN_USERID + " text not null, "
             + COLUMN_DATE + " text, "
+            + COLUMN_TIME + " text, "
             + COLUMN_TEMPERATURE + " text not null, "
+            + COLUMN_TEMPERATURE_VERDICT + " text not null, "
             + COLUMN_LBP + " text not null, "
+            + COLUMN_LBP_VERDICT + " text not null, "
             + COLUMN_HBP + " text not null, "
+            + COLUMN_HBP_VERDICT + " text not null, "
             + COLUMN_HEARTRATE + " text not null, "
+            + COLUMN_HEARTRATE_VERDICT + " text not null, "
             + "foreign key (" + COLUMN_FOREIGN_USERID + ") references " + USER_TABLE + "(" + COLUMN_USERID + ")" + ");";
 
     //variables for holding database context, helper and SQLite instances
@@ -135,18 +134,32 @@ public class myMediCareDB {
         newCalc.put(COLUMN_HBP, calc.gethBPReading());
         newCalc.put(COLUMN_HEARTRATE, calc.getHeartRateReading());
         newCalc.put(COLUMN_FOREIGN_USERID, calc.getForeignUserID());
-        newCalc.put(COLUMN_DATE, calc.getDateAndTime());
+        newCalc.put(COLUMN_DATE, calc.getDate());
+        newCalc.put(COLUMN_TIME, calc.getTime());
+        newCalc.put(COLUMN_TEMPERATURE_VERDICT, calc.getVerdictTemp());
+        newCalc.put(COLUMN_LBP_VERDICT, calc.getVerdictLBP());
+        newCalc.put(COLUMN_HBP_VERDICT, calc.getVerdictHBP());
+        newCalc.put(COLUMN_HEARTRATE_VERDICT, calc.getVerdictHR());
 
         db.insert(MEASUREMENTS_TABLE, null, newCalc);
-
-        Toast.makeText(this.context, ""+newCalc  , Toast.LENGTH_LONG).show();
     }
 
     public Cursor getCalculation(int i) throws SQLException {
-        //query database for current row for datca
+        //query database for current row for data
         Cursor mCursor = db.query(true, MEASUREMENTS_TABLE, new String[]
-                        {COLUMN_MEASUREMENTID, COLUMN_FOREIGN_USERID, COLUMN_DATE, COLUMN_TEMPERATURE, COLUMN_LBP, COLUMN_HBP, COLUMN_HEARTRATE}, COLUMN_FOREIGN_USERID + " like " + i , null,
-                null, null, null, null);
+                        {COLUMN_MEASUREMENTID,
+                                COLUMN_FOREIGN_USERID,
+                                COLUMN_DATE,
+                                COLUMN_TIME,
+                                COLUMN_TEMPERATURE,
+                                COLUMN_LBP,
+                                COLUMN_HBP,
+                                COLUMN_HEARTRATE,
+                                COLUMN_TEMPERATURE_VERDICT,
+                                COLUMN_LBP_VERDICT,
+                                COLUMN_HBP_VERDICT,
+                                COLUMN_HEARTRATE_VERDICT},
+                        COLUMN_FOREIGN_USERID + " like " + i , null,null, null, null, null);
         //if cursor exists, go to the first point in database
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -209,9 +222,6 @@ public class myMediCareDB {
         editor.putInt("positionCount",positionCount);
         editor.apply();
 
-//        Toast checkNumber = Toast.makeText(this.context, "number: " +cursor.getString(3), Toast.LENGTH_SHORT);
-//        checkNumber.show();
-
         return b;
     }
 
@@ -220,8 +230,13 @@ public class myMediCareDB {
     public Cursor getAccount(int i) throws SQLException {
         //query database for current row for datca
         Cursor mCursor = db.query(true, USER_TABLE, new String[]
-                        {COLUMN_USERID, COLUMN_EMAIL, COLUMN_PASSWORD, COLUMN_NAME, COLUMN_GP_NUMBER, COLUMN_COLOURSCHEME}, COLUMN_USERID + " like " + i , null,
-                null, null, null, null);
+                        {COLUMN_USERID,
+                                COLUMN_EMAIL,
+                                COLUMN_PASSWORD,
+                                COLUMN_NAME,
+                                COLUMN_GP_NUMBER,
+                                COLUMN_COLOURSCHEME},
+                        COLUMN_USERID + " like " + i , null, null, null, null, null);
         //if cursor exists, go to the first point in database
         if (mCursor != null) {
             mCursor.moveToFirst();

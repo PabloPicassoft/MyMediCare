@@ -8,12 +8,12 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.os.ParcelableCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -21,23 +21,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.SimpleTimeZone;
+
+import static java.text.DateFormat.getTimeInstance;
 
 public class CalculateRisk extends AppCompatActivity {
 
     myMediCareDB db;
 
-//    String tempResult = "";
-//    String HBPResult = "";
-//    String LBPResult = "";
-//    String BPMResult = "";
 
     int highRiskCount = 0;
 
@@ -51,6 +48,8 @@ public class CalculateRisk extends AppCompatActivity {
         db = new myMediCareDB(getBaseContext());
 
         setContentView(R.layout.activity_calculate_risk);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculateRisk.this);
         int h = 0;
@@ -186,8 +185,6 @@ public class CalculateRisk extends AppCompatActivity {
                         }
                     }
 
-
-//                  String outputRisk = getString(highRiskCount);
                     HRMeasureText.setVisibility(View.VISIBLE);
                     TextView output = (TextView) findViewById(R.id.output_riskyness);
                     output.setText(String.valueOf(highRiskCount));
@@ -196,8 +193,6 @@ public class CalculateRisk extends AppCompatActivity {
 
                     int h = 0;
                     int userPosition = preferences.getInt("positionCount", h);
-//                    Toast loginSucceeded = Toast.makeText(CalculateRisk.this, "name = " +  userPosition, Toast.LENGTH_LONG);
-//                    loginSucceeded.show();
 
                     /***************************** INSERT NEW CALCULATION RECORD *********************/
                     Calculation calc = new Calculation();
@@ -221,28 +216,30 @@ public class CalculateRisk extends AppCompatActivity {
                     calc.setHeartRateReading(hr.getText().toString());
                     calc.setVerdictHR(verdictHR);
 
+                    //Date Data
                     Calendar calendar = Calendar.getInstance();
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy 'at' HH:mm:ss");
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
                     String strDate = sdf.format(calendar.getTime());
 
-                    calc.setDateAndTime(strDate);
+                    calc.setDate(strDate);
 
+                    //Time Data
+                    long millis = new Date().getTime();
+                    String time = getTimeInstance(SimpleDateFormat.MEDIUM, Locale.UK).format(millis);
 
-                    Toast.makeText(getBaseContext(), ""+strDate, Toast.LENGTH_LONG).show();
+                    String strTime = time + " GMT";
+                    calc.setTime(strTime);
 
-
-
-//                    db.open();
-//                    db.insertCalculation(calc);
-//                    db.close();
+                    //Set verdicts of all calculations
+                    calc.setVerdictTemp(verdictTemp);
+                    calc.setVerdictLBP(verdictLBP);
+                    calc.setVerdictHBP(verdictHBP);
+                    calc.setVerdictHR(verdictHR);
 
                     db.open();
-
                     final Cursor c = db.getAccount(userPosition);
                     db.insertCalculation(calc);
-
                     db.close();
-
 
                     final AlertDialog.Builder highRiskAlert  = new AlertDialog.Builder(CalculateRisk.this);
                     highRiskAlert.setMessage("An SMS has been sent to alert your GP of your measurements, and an appointment will be booked. \n" +
