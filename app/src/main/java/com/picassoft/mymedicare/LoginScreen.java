@@ -57,20 +57,19 @@ public class LoginScreen extends AppCompatActivity {
                         db.close();
 
                         if(TextUtils.isEmpty(enteredEmail)) {
-                            uEmail.setError("Required Field");
+                            uEmail.setError("Email Required");
                         }
                         if(TextUtils.isEmpty(enteredPass)) {
-                            uPass.setError("Required Field");
+                            uPass.setError("Password Required");
                         }
 
                         if (enteredPass.equals(password)){
                             
-                            Toast loginSucceeded = Toast.makeText(LoginScreen.this, "Logged in successfully as " + enteredEmail + ".", Toast.LENGTH_LONG);
-                            loginSucceeded.show();
+                            Toast.makeText(LoginScreen.this, "Logged in successfully as " + enteredEmail + ".", Toast.LENGTH_LONG).show();
 
                             Intent loginClick = new Intent(LoginScreen.this, NavDrawer.class);
                             startActivity(loginClick);
-                        } else {
+                        } else if (!enteredPass.equals(password) && (!TextUtils.isEmpty(enteredEmail)) && (!TextUtils.isEmpty(enteredPass))) {
                             Toast.makeText(LoginScreen.this, "Email and Password Do Not Match!", Toast.LENGTH_SHORT).show();
                         }
 

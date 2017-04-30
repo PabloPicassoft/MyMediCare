@@ -16,7 +16,7 @@ public class CreateAccount extends AppCompatActivity implements OnClickListener 
 
     int errorCount;
     myMediCareDB db;
-    boolean loginnable = true;
+    //boolean loginnable = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
