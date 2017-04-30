@@ -60,16 +60,6 @@ public class NavDrawer extends AppCompatActivity
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.content_nav_drawer);
         relativeLayout.setBackgroundColor(Color.parseColor(colour));
 
-        TextView tv =(TextView)findViewById(R.id.main_menu_text);
-
-        tv.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                Intent dbmanager = new Intent(NavDrawer.this,AndroidDatabaseManager.class);
-                startActivity(dbmanager);
-            }
-        });
-
         final Button calcRisk = (Button) findViewById(R.id.main_calculate_risk);
         calcRisk.setOnClickListener(new View.OnClickListener() {
             @Override

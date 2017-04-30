@@ -28,16 +28,6 @@ public class LoginScreen extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         setContentView(R.layout.activity_login_screen);
 
-        TextView tv =(TextView)findViewById(R.id.WrittenLogo);
-
-        tv.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                Intent dbmanager = new Intent(LoginScreen.this,AndroidDatabaseManager.class);
-                startActivity(dbmanager);
-            }
-        });
-
         final Button login = (Button) findViewById(R.id.btn_login);
         login.setOnClickListener(new OnClickListener() {
             @Override
@@ -49,8 +39,6 @@ public class LoginScreen extends AppCompatActivity {
                     EditText uPass = (EditText) findViewById(R.id.login_password);
                     String enteredPass = uPass.getText().toString();
 
-
-                    //
                     try {
                         db.open();
                         String password = db.loginAuth(enteredEmail);
@@ -98,7 +86,7 @@ public class LoginScreen extends AppCompatActivity {
 
     @Override
     public  void onBackPressed(){
-
+        //do nothing
     }
 }
 

@@ -1,7 +1,9 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
+    signingConfigs {
+    }
+    compileSdkVersion 23
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.picassoft.mymedicare"
