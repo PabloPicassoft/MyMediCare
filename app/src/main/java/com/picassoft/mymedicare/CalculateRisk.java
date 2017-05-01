@@ -34,10 +34,7 @@ import static java.text.DateFormat.getTimeInstance;
 public class CalculateRisk extends AppCompatActivity {
 
     myMediCareDB db;
-
-
     int highRiskCount = 0;
-
     Intent backToMain = new Intent(CalculateRisk.this, NavDrawer.class);
 
 
@@ -65,11 +62,9 @@ public class CalculateRisk extends AppCompatActivity {
         relativeLayout.setBackgroundColor(Color.parseColor(colour));
 
         Spinner tempDropdown = (Spinner) findViewById(R.id.spinner_temp_format);
-        //String array to hold different temperature formats
+
         String[] items = new String[]{"°C", "°F"};
-        //set spinner to contain values of items string above
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        //initialize spinner
         tempDropdown.setAdapter(adapter);
 
         ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.SEND_SMS},1);
@@ -77,13 +72,11 @@ public class CalculateRisk extends AppCompatActivity {
         final TextView HRMeasureText = (TextView) findViewById(R.id.result_label);
         //HRMeasureText.setVisibility(View.INVISIBLE);
 
-        //create variable for results button
         Button results = (Button) findViewById(R.id.button_calculate);
         results.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //try and catch to prevent possible errors
+
                 try {
-                    //setup variables for all text fields for input values
                     TextView temp = (TextView) findViewById(R.id.input_temperature);
                     TextView Hibp = (TextView) findViewById(R.id.input_bp_high);
                     TextView Lobp = (TextView) findViewById(R.id.input_bp_low);
@@ -93,22 +86,20 @@ public class CalculateRisk extends AppCompatActivity {
                     //setup variable to hold spinner id value holding temp type selected
                     Spinner tempDropdown = (Spinner) findViewById(R.id.spinner_temp_format);
 
-                    //variables hold the values of all data input to text views
                     final double tempInt = Integer.parseInt(temp.getText().toString());
                     final int HBPInt = Integer.parseInt(Hibp.getText().toString());
                     final int LBPInt = Integer.parseInt(Lobp.getText().toString());
                     final int HRInt = Integer.parseInt(hr.getText().toString());
 
                     final String celsiusOrFahr = (String) tempDropdown.getSelectedItem();
-                    //set up strings to holds results value of calculations
                     String verdictTemp = null;
                     String verdictHBP = null;
                     String verdictLBP = null;
                     String verdictHR = null;
-                    //if the degrees value is in fahrenheit
+
+                    //if the degrees value is fahrenheit
                     if (celsiusOrFahr.equals("°F")) {
 
-                        //follow statistic struction to determin where value sits
                         if (tempInt > 100.4) {
                             verdictTemp = "HIGH RISK";
                             highRiskCount += 1;
@@ -117,7 +108,7 @@ public class CalculateRisk extends AppCompatActivity {
                         } else if (tempInt <= 98.6) {
                             verdictTemp = "NORMAL RISK";
                         }
-                        //follow statistic struction to determin where value sits
+
                         if (HBPInt >= 180) {
                             verdictHBP = "HIGH RISK";
                             highRiskCount += 1;
@@ -126,7 +117,7 @@ public class CalculateRisk extends AppCompatActivity {
                         } else if (HBPInt <= 120) {
                             verdictHBP = "NORMAL";
                         }
-                        //follow statistic struction to determin where value sits
+
                         if (LBPInt >= 110) {
                             verdictLBP = "HIGH RISK";
                             highRiskCount += 1;
@@ -135,7 +126,7 @@ public class CalculateRisk extends AppCompatActivity {
                         } else if (LBPInt <= 80) {
                             verdictLBP = "NORMAL RISK";
                         }
-                        //follow statistic struction to determin where value sits
+
                         if (HRInt > 160) {
                             verdictHR = "HIGH RISK";
                             highRiskCount += 1;
@@ -147,7 +138,7 @@ public class CalculateRisk extends AppCompatActivity {
 
                         //if the degrees value is in celcius
                     } else if (celsiusOrFahr.equals("°C")) {
-                        //follow statistic struction to determin where value sits
+
                         if (tempInt > 38) {
                             verdictTemp = "HIGH RISK";
                             highRiskCount += 1;
@@ -156,7 +147,7 @@ public class CalculateRisk extends AppCompatActivity {
                         } else if (tempInt <= 37) {
                             verdictTemp = "NORMAL RISK";
                         }
-                        //follow statistic struction to determin where value sits
+
                         if (HBPInt >= 180) {
                             verdictHBP = "HIGH RISK";
                             highRiskCount += 1;
@@ -165,7 +156,7 @@ public class CalculateRisk extends AppCompatActivity {
                         } else if (HBPInt <= 120) {
                             verdictHBP = "NORMAL RISK";
                         }
-                        //follow statistic struction to determin where value sits
+
                         if (LBPInt >= 110) {
                             verdictLBP = "HIGH RISK";
                             highRiskCount += 1;
@@ -174,7 +165,7 @@ public class CalculateRisk extends AppCompatActivity {
                         } else if (LBPInt <= 80) {
                             verdictLBP = "NORMAL RISK";
                         }
-                        //follow statistic struction to determin where value sits
+
                         if (HRInt > 160) {
                             verdictHR = "HIGH RISK";
                             highRiskCount += 1;
@@ -229,12 +220,6 @@ public class CalculateRisk extends AppCompatActivity {
 
                     String strTime = time + " GMT";
                     calc.setTime(strTime);
-
-                    //Set verdicts of all calculations
-                    calc.setVerdictTemp(verdictTemp);
-                    calc.setVerdictLBP(verdictLBP);
-                    calc.setVerdictHBP(verdictHBP);
-                    calc.setVerdictHR(verdictHR);
 
                     db.open();
                     final Cursor c = db.getAccount(userPosition);

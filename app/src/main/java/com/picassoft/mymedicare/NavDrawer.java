@@ -34,8 +34,6 @@ public class NavDrawer extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_drawer);
 
-
-
         db = new myMediCareDB(getBaseContext());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -48,12 +46,6 @@ public class NavDrawer extends AppCompatActivity
         db.open();
         Cursor cursor = db.getAccount(userPosition);
         db.close();
-
-//        TextView name = (TextView) findViewById();
-//        name.setText("TEST");
-//
-//        TextView email = (TextView) findViewById(R.id.nav_header_email);
-//        email.setText("ING");
 
         String colour = cursor.getString(5);
 
@@ -112,12 +104,7 @@ public class NavDrawer extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        if (drawer.isDrawerOpen(GravityCompat.START)) {
-//            drawer.closeDrawer(GravityCompat.START);
-//        } else {
-//            super.onBackPressed();
-//        }
+//        do nothing to disable going back to login
     }
 
     @Override
@@ -128,12 +115,9 @@ public class NavDrawer extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent settings = new Intent(this, Settings.class);
             startActivity(settings);
@@ -146,11 +130,9 @@ public class NavDrawer extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_calculate) {
-            // Handle the camera action
             Intent toCalc = new Intent(this, CalculateRisk.class);
             startActivity(toCalc);
         } else if (id == R.id.nav_logout) {

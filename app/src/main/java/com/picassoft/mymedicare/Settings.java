@@ -106,7 +106,6 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (updateNumber.isChecked()){
-                    Toast.makeText(Settings.this, "CHECKBOX CLICKED", Toast.LENGTH_SHORT).show();
                     newGPNumber.setEnabled(true);
                     checkboxon = true;
                 } else {
@@ -187,8 +186,6 @@ public class Settings extends AppCompatActivity {
 
                 Intent backToLogin = new Intent(Settings.this, LoginScreen.class);
                 startActivity(backToLogin);
-
-
 
             }
         });

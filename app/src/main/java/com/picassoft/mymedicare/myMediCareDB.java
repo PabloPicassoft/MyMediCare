@@ -4,14 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.MatrixCursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
-import java.util.ArrayList;
 
 
 public class myMediCareDB {
@@ -47,7 +44,7 @@ public class myMediCareDB {
 
     private static final int DATABASE_VERSION = 2;
 
-    //string told database table name and order
+    //string query to hold database table name and order of columns
     private static final String CREATE_USER_TABLE = "create table "+ USER_TABLE + "("
             + COLUMN_USERID + " integer primary key autoincrement, "
             + COLUMN_EMAIL + " text not null, "
@@ -56,6 +53,7 @@ public class myMediCareDB {
             + COLUMN_COLOURSCHEME + " text not null, "
             + COLUMN_GP_NUMBER + " text not null);";
 
+    //string query to hold database table name and order of columns
     private static final String CREATE_MEASUREMENTS_TABLE = "create table "+ MEASUREMENTS_TABLE + "("
             + COLUMN_MEASUREMENTID + " integer primary key autoincrement, "
             + COLUMN_FOREIGN_USERID + " text not null, "
@@ -75,7 +73,6 @@ public class myMediCareDB {
     private final Context context;
     private DatabaseHelper DBHelper;
     private SQLiteDatabase db;
-    //SQLiteDatabase sqlDB;
 
     //method to create instance of database helper
     public myMediCareDB(Context ctx)
@@ -127,7 +124,6 @@ public class myMediCareDB {
 
         //populate rows with measurements
         ContentValues newCalc = new ContentValues();
-
 
         newCalc.put(COLUMN_TEMPERATURE, calc.getTemperatureReading());
         newCalc.put(COLUMN_LBP, calc.getlBPReading());
@@ -190,7 +186,6 @@ public class myMediCareDB {
     //get user details
     public String loginAuth(String username){
 
-
         String query = "select _id, email, password, gpnumber from " + USER_TABLE;
         Cursor cursor = db.rawQuery(query, null);
 
@@ -214,7 +209,6 @@ public class myMediCareDB {
                 }
 
             } while (cursor.moveToNext());
-
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
@@ -224,8 +218,6 @@ public class myMediCareDB {
 
         return b;
     }
-
-
 
     public Cursor getAccount(int i) throws SQLException {
         //query database for current row for datca
@@ -271,55 +263,6 @@ public class myMediCareDB {
         }
         return cursor;
     }
-
-    /**************************************************************************************************************************
-    ***************************************************************************************************************************
-    ***************************************************************************************************************************
-    ***************************************************************************************************************************/
-    public ArrayList<Cursor> getData(String Query){
-        //get writable database
-
-        String[] columns = new String[] { "message" };
-        //an array list of cursor to save two cursors one has results from the query
-        //other cursor stores error message if any errors are triggered
-        ArrayList<Cursor> alc = new ArrayList<Cursor>(2);
-        MatrixCursor Cursor2= new MatrixCursor(columns);
-        alc.add(null);
-        alc.add(null);
-
-        try{
-            String maxQuery = Query ;
-            //execute the query results will be save in Cursor c
-            Cursor c = db.rawQuery(maxQuery, null);
-
-            //add value to cursor2
-            Cursor2.addRow(new Object[] { "Success" });
-
-            alc.set(1,Cursor2);
-            if (null != c && c.getCount() > 0) {
-
-                alc.set(0,c);
-                c.moveToFirst();
-
-                return alc ;
-            }
-            return alc;
-        } catch(SQLException sqlEx){
-            Log.d("printing exception", sqlEx.getMessage());
-            //if any exceptions are triggered save the error message to cursor an return the arraylist
-            Cursor2.addRow(new Object[] { ""+sqlEx.getMessage() });
-            alc.set(1,Cursor2);
-            return alc;
-        } catch(Exception ex){
-            Log.d("printing exception", ex.getMessage());
-
-            //if any exceptions are triggered save the error message to cursor an return the arraylist
-            Cursor2.addRow(new Object[] { ""+ex.getMessage() });
-            alc.set(1,Cursor2);
-            return alc;
-        }
-    }
-
     /*
                           MEOW
 

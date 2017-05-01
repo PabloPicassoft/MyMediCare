@@ -29,7 +29,6 @@ public class PastMeasurements extends AppCompatActivity {
 
         db = new myMediCareDB(getBaseContext());
 
-
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(PastMeasurements.this);
         int h = 0;
         int userPosition = preferences.getInt("positionCount", h);
@@ -52,8 +51,6 @@ public class PastMeasurements extends AppCompatActivity {
                 final Cursor accountCursor = db.getAccount(userPosition);
                 final Cursor calCursor = db.getCalculation(userPosition);
             db.close();
-
-
 
             pastMeasure.setText("Measurement: " + calCursor.getString(0) + " \nUser: " + accountCursor.getString(3) +
                     " \nDate: " + calCursor.getString(2) + " \nTime: " + calCursor.getString(3) +
