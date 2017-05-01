@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -127,7 +128,7 @@ public class Settings extends AppCompatActivity {
 
                 String newGPNumStr = newGPNumber.getText().toString();
 
-                if ((colourSelected) && (checkboxon && !newGPNumStr.equals(null))) {
+                if ((colourSelected) && checkboxon && !TextUtils.isEmpty(newGPNumStr)) {
 
                     db.open();
                     Cursor num = db.getAccount(userPosition);
@@ -141,7 +142,7 @@ public class Settings extends AppCompatActivity {
 
                     Toast.makeText(Settings.this, "Colour Scheme and Number Changed", Toast.LENGTH_SHORT).show();
 
-                } else if (colourSelected && !checkboxon) {
+                } else if (colourSelected) {
                     db.open();
                     Cursor colourOnly = db.getAccount(userPosition);
                     db.updateDB(colourOnly.getString(1), colourOnly.getString(3), colourOnly.getString(2), colourOnly.getString(4), userPosition, colour); //132
@@ -152,7 +153,7 @@ public class Settings extends AppCompatActivity {
 
                     Toast.makeText(Settings.this, "Colour Scheme Changed", Toast.LENGTH_SHORT).show();
 
-                } else if (checkboxon && !newGPNumStr.isEmpty()) {
+                } else if (checkboxon && !TextUtils.isEmpty(newGPNumStr)) {
 
                     db.open();
                     Cursor numberOnly = db.getAccount(userPosition);
