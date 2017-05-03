@@ -43,16 +43,23 @@ public class Settings extends AppCompatActivity {
 
         setContentView(R.layout.activity_settings);
 
+        /*stop the keyboard automatically popping up when activity begins. Keyboard will appear when
+        * the user taps an EditText.
+        */
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+        //store users position in the scope of the OnCreate
         preferences = PreferenceManager.getDefaultSharedPreferences(Settings.this);
         int h = 0;
         userPosition = preferences.getInt("positionCount", h);
 
+        //get a writeable version of the database
         db.open();
-        Cursor cursor = db.findColour(userPosition);
+            Cursor cursor = db.findColour(userPosition);
         db.close();
+        //close the database
 
+        
         String initialColour = cursor.getString(0);
 
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.activity_settings);
@@ -127,6 +134,10 @@ public class Settings extends AppCompatActivity {
 
                 String newGPNumStr = newGPNumber.getText().toString();
 
+                /*check if both a colour radio button is clicked, and there is a number in the editText
+                * if condition is true, the user wants to update both colour and number, call updateDB
+                * and pass in the new number and colour scheme
+                */
                 if ((colourSelected) && checkboxon && !TextUtils.isEmpty(newGPNumStr)) {
 
                     db.open();
@@ -140,7 +151,10 @@ public class Settings extends AppCompatActivity {
                     settings.setBackgroundColor(Color.parseColor(colour));
 
                     Toast.makeText(Settings.this, "Colour Scheme and Number Changed", Toast.LENGTH_SHORT).show();
-
+                /*check if only a colour radio button is selected if condition is true, the user wants
+                * to only update the accounts colour scheme, call updateDB and pass in the new colour scheme
+                * and alert user their colour scheme was changed
+                */
                 } else if (colourSelected) {
                     db.open();
                     Cursor colourOnly = db.getAccount(userPosition);
@@ -152,6 +166,10 @@ public class Settings extends AppCompatActivity {
 
                     Toast.makeText(Settings.this, "Colour Scheme Changed", Toast.LENGTH_SHORT).show();
 
+                /*check if the enable checkbox is selected and there is a number in the edit text,
+                * if true, pass in the new GP number to replace the onld number in the DB
+                * alert user their number was changed.
+                */
                 } else if (checkboxon && !TextUtils.isEmpty(newGPNumStr)) {
 
                     db.open();
@@ -163,6 +181,7 @@ public class Settings extends AppCompatActivity {
                     Toast.makeText(Settings.this, "New GP Number Set", Toast.LENGTH_SHORT).show();
 
                 } else {
+                    //if none are selected, alert user there were no settings selected.
                     Toast.makeText(Settings.this, "No Settings to Update", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -173,20 +192,23 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                //find the user's id using shared prefs
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Settings.this);
                 int h = 0;
                 int userPosition = preferences.getInt("positionCount", h);
 
+                //call deleteByID passing in the user's position in the database to delete the correct record.
                 db.open();
                 db.deleteByID(userPosition);
                 db.close();
 
+                //inform that user was deleted
                 Toast informDeletion = Toast.makeText(Settings.this, "Account has been deleted", Toast.LENGTH_LONG);
                 informDeletion.show();
 
+                //return to the login page to revoke access to that account completely
                 Intent backToLogin = new Intent(Settings.this, LoginScreen.class);
                 startActivity(backToLogin);
-
             }
         });
 

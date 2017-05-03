@@ -41,7 +41,6 @@ public class myMediCareDB {
     public static final String COLUMN_HEARTRATE = "heartrate";
     public static final String COLUMN_HEARTRATE_VERDICT = "heartrate_verdict";
 
-
     private static final int DATABASE_VERSION = 2;
 
     //string query to hold database table name and order of columns

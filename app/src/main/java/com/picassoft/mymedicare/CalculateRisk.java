@@ -106,7 +106,7 @@ public class CalculateRisk extends AppCompatActivity {
                         } else if (tempInt <= 100.4 && tempInt > 98.6) {
                             verdictTemp = "LOW RISK";
                         } else if (tempInt <= 98.6) {
-                            verdictTemp = "NORMAL RISK";
+                            verdictTemp = "NORMAL";
                         }
 
                         if (HBPInt >= 180) {
@@ -124,7 +124,7 @@ public class CalculateRisk extends AppCompatActivity {
                         } else if (LBPInt < 110 && LBPInt > 80) {
                             verdictLBP = "LOW RISK";
                         } else if (LBPInt <= 80) {
-                            verdictLBP = "NORMAL RISK";
+                            verdictLBP = "NORMAL";
                         }
 
                         if (HRInt > 160) {
@@ -133,7 +133,7 @@ public class CalculateRisk extends AppCompatActivity {
                         } else if (HRInt <= 160 && HRInt >= 72) {
                             verdictHR = "LOW RISK";
                         } else if (HRInt < 72) {
-                            verdictHR = "NORMAL RISK";
+                            verdictHR = "NORMAL";
                         }
 
                         //if the degrees value is in celcius
@@ -145,7 +145,7 @@ public class CalculateRisk extends AppCompatActivity {
                         } else if (tempInt <= 38 && tempInt > 37) {
                             verdictTemp = "LOW RISK";
                         } else if (tempInt <= 37) {
-                            verdictTemp = "NORMAL RISK";
+                            verdictTemp = "NORMAL";
                         }
 
                         if (HBPInt >= 180) {
@@ -154,16 +154,16 @@ public class CalculateRisk extends AppCompatActivity {
                         } else if (HBPInt < 180 && HBPInt > 120) {
                             verdictHBP = "LOW RISK";
                         } else if (HBPInt <= 120) {
-                            verdictHBP = "NORMAL RISK";
+                            verdictHBP = "NORMAL";
                         }
 
                         if (LBPInt >= 110) {
-                            verdictLBP = "HIGH RISK";
+                            verdictLBP = "HIGH";
                             highRiskCount += 1;
                         } else if (LBPInt < 110 && LBPInt > 80) {
                             verdictLBP = "LOW RISK";
                         } else if (LBPInt <= 80) {
-                            verdictLBP = "NORMAL RISK";
+                            verdictLBP = "NORMAL";
                         }
 
                         if (HRInt > 160) {
@@ -172,7 +172,7 @@ public class CalculateRisk extends AppCompatActivity {
                         } else if (HRInt <= 160 && HRInt > 72) {
                             verdictHR = "LOW RISK";
                         } else if (HRInt <= 72) {
-                            verdictHR = "NORMAL RISK";
+                            verdictHR = "NORMAL";
                         }
                     }
 
